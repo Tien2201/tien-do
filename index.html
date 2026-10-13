@@ -1999,7 +1999,7 @@ function die(){
   if(DG && M && M.id === DG.mid) return dgDie();
   me.dead = true; me.hp = 0; P.deaths++; const lost = Math.round(P.exp * .05); P.exp -= lost; sfx.bad();
   sheet(`<h2>${Lx("Thân tử đạo tiêu…")}</h2><p class="sub">${Lx("Bạn bị yêu ma đánh trọng thương, mất {0} tu vi. Hồn phách quay về Thôn Thanh Vân dưỡng thương.", fmt(lost))}</p><button class="btn gold" id="rev">${Lx("Hồi sinh")}</button>`, { dismiss:false });
-  $('#rev').onclick = () => { closeSheet(); me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; fade(() => enterMap('thon', 25 * TS, 21 * TS)); };
+  $('#rev').onclick = () => { me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; closeSheet(); running = true; fade(() => enterMap('thon', 25 * TS, 21 * TS)); };
 }
 function useSkill(k){
   const S = SKILLS[k]; if(me.dead) return;
@@ -2857,7 +2857,7 @@ let invF = '', invSel = null, invSort = 'tier';
 function heroPreview(){
   const C = cls(), L = look(), pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
-  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 2, -4); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 33, -4); }
+  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 2, 10); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 33, 10); }
   x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 17);
   return pv.toDataURL();
 }
@@ -2962,7 +2962,7 @@ function charSheet(){
   const S = stats(), s = P.stage, gate = isGate(s), full = P.exp >= needExp(s), C = cls(), L = look();
   const pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
-  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 2, -4); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 33, -4); }
+  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 2, 10); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 33, 10); }
   const nS = (P.cls || 'kiem') === 'kiem' ? Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)) : 0, pos = [...Array(nS)].map((_, i) => { const a = .6 + i * Math.PI * 2 / nS; return [Math.round(36 + Math.cos(a) * 20 - 3), Math.round(44 + Math.sin(a) * 4 - 10), Math.sin(a)]; });
   pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
   x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 17);
@@ -3808,7 +3808,7 @@ function dgDie(){
   if(DG.coop && Party.code){ Net.D.runTransaction(Net.partyRef('dg/lives'), cur => Math.max(0, (cur === null || cur === undefined ? 3 : cur) - 1)).catch(() => {}); Net.chat(Lx("gục ngã trong Bí Cảnh, đội còn {0} mạng", Math.max(0, DG.lives)), true); }
   if(DG.lives > 0){
     sheet(`<h2>${Lx("Gục ngã!")}</h2><p class="sub">${Lx("Còn {0} mạng. Hồi sinh ở cửa phòng.", DG.lives)}</p><button class="btn gold" id="rev">${Lx("Hồi sinh")}</button>`, { dismiss:false });
-    $('#rev').onclick = () => { closeSheet(); const R = (DG.act && DG.act.room) || DG.rooms.find(r => r.st !== 'done') || DG.rooms[0]; me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; me.x = (R.x + 2) * TS; me.y = R.cy * TS + 8; if(!canStand(M, me.x, me.y)) me.x = (R.x + R.w / 2) * TS; fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:'#7FE0A8' }); partyHud(); };
+    $('#rev').onclick = () => { const R = (DG.act && DG.act.room) || DG.rooms.find(r => r.st !== 'done') || DG.rooms[0]; me.dead = false; closeSheet(); running = true; const S = stats(); me.hp = S.hp; me.mp = S.mp; me.x = (R.x + 2) * TS; me.y = R.cy * TS + 8; if(!canStand(M, me.x, me.y)) me.x = (R.x + R.w / 2) * TS; fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:'#7FE0A8' }); partyHud(); };
   } else {
     dgFail(true); }
 }
@@ -3816,7 +3816,7 @@ function dgFail(self){
   if(!DG || DG.failed) return; DG.failed = 1;
   { if(!self){ me.dead = true; sfx.bad(); }
     sheet(`<h2>${Lx("Bí Cảnh thất bại")}</h2><p class="sub">${Lx("Hết mạng rồi. Đồ đã nhặt vẫn được giữ, hãy mạnh hơn rồi quay lại.")}</p><button class="btn gold" id="rev">${Lx("Về Thôn")}</button>`, { dismiss:false });
-    $('#rev').onclick = () => { closeSheet(); me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; exitDungeon(); };
+    $('#rev').onclick = () => { me.dead = false; const S = stats(); me.hp = S.hp; me.mp = S.mp; closeSheet(); running = true; exitDungeon(); };
   }
 }
 function dgRemote(v){
@@ -4577,7 +4577,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { die, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
