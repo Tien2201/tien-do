@@ -977,7 +977,7 @@ function heroSprite(L, fr){
   const A = L.ap || AP0(L.g);
   const key = 'h' + [L.g, L.hair, L.robe, L.trim, L.skin, L.beard, L.npc, L.at, L.ac, L.h, L.bw, L.bc, apStr(A)].join('|') + fr;
   return cached(key, () => spr(24, 34, (R0, x) => {
-    const R = (a, b, w, h, c) => R0(a + 3, b + 4, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 4, 1, 1);
+    const R = (a, b, w, h, c) => R0(a + 3, b + 6, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 6, 1, 1);
     const sk = L.skin || SKINS[A.sk] || '#F2C9A0', rb = L.robe || '#4A5A7A', rd = shade(rb, -.25), tr = L.trim || '#F2C14E', hr = L.hair || '#1E1622', oy = 1, at = L.at || 1, ac = L.ac || tr;
     const ec = EYEC[A.ec] || '#1E1420', mc = MARKC[A.mc] || '#E0203A', hs = L.beard ? 0 : A.hs, os = L.npc ? 0 : A.os, dk = '#1E1420';
     const leg = fr === 1 ? 1 : fr === 2 ? -1 : 0, flap = fr === 1 ? 1 : 0;
@@ -1050,8 +1050,8 @@ function heroSprite(L, fr){
     if(h === 'h2'){ R(6, -1 + oy, 6, 2, '#3E9E5A'); R(7, -2 + oy, 4, 1, '#7FE0A8'); R(4, 0 + oy, 11, 1, '#F2EEF4'); R(8, 0 + oy, 2, 1, '#B0FFD0'); }
     if(h === 'h3'){ R(6, -1 + oy, 7, 3, '#F2C14E'); R(6, -2 + oy, 1, 1, '#F2C14E'); R(8, -3 + oy, 2, 2, '#F2C14E'); R(11, -2 + oy, 1, 1, '#F2C14E'); R(8, 0 + oy, 2, 1, '#E0453A'); R(7, -1 + oy, 5, 1, '#FFE89A'); R(3, 1 + oy, 13, 1, '#C9912A'); }
     if(h === 'h4'){ R(6, -3 + oy, 7, 5, '#7A4AC0'); R(6, 0 + oy, 7, 1, '#F2C14E'); R(8, -2 + oy, 3, 1, '#B07CFF'); R(5, -6 + oy, 1, 4, '#E0453A'); R(4, -7 + oy, 1, 2, '#FF8A6A'); R(13, -6 + oy, 1, 4, '#E0453A'); R(14, -7 + oy, 1, 2, '#FF8A6A'); }
-    if(h === 'h5'){ R(5, -2 + oy, 9, 3, '#F2C14E'); R(6, -4 + oy, 1, 2, '#F2C14E'); R(9, -5 + oy, 1, 3, '#F2C14E'); R(12, -4 + oy, 1, 2, '#F2C14E'); R(8, -1 + oy, 3, 1, '#E0453A'); R(9, -6 + oy, 1, 1, '#4FA8FF'); R(6, -1 + oy, 1, 1, '#4FA8FF'); R(12, -1 + oy, 1, 1, '#4FA8FF'); R(4, 2 + oy, 1, 6 + flap, '#E0453A'); R(14, 2 + oy, 1, 6 - flap, '#E0453A'); R(4, 8 + oy + flap, 1, 1, '#F2C14E'); }
-    if(h === 'h6'){ R(5, -2 + oy, 9, 3, '#F2C14E'); R(2, -3 + oy, 15, 1, '#1A1226'); R(3, -4 + oy, 13, 1, '#F2C14E'); R(9, -6 + oy, 1, 2, '#FF5A4A'); for(const xx of [2, 4, 14, 16]) for(let i = 0; i < 4; i++) R(xx, -2 + i * 2 + oy, 1, 1, i % 2 ? '#FF5A4A' : '#F2EEF4'); }
+    if(h === 'h5'){ R(5, -2 + oy, 9, 3, '#F2C14E'); R(6, -4 + oy, 1, 2, '#F2C14E'); R(9, -4 + oy, 1, 2, '#F2C14E'); R(12, -4 + oy, 1, 2, '#F2C14E'); R(8, -1 + oy, 3, 1, '#E0453A'); R(9, -5 + oy, 1, 1, '#4FA8FF'); R(6, -1 + oy, 1, 1, '#4FA8FF'); R(12, -1 + oy, 1, 1, '#4FA8FF'); R(4, 2 + oy, 1, 6 + flap, '#E0453A'); R(14, 2 + oy, 1, 6 - flap, '#E0453A'); R(4, 8 + oy + flap, 1, 1, '#F2C14E'); }
+    if(h === 'h6'){ R(5, -2 + oy, 9, 3, '#F2C14E'); R(2, -3 + oy, 15, 1, '#1A1226'); R(3, -4 + oy, 13, 1, '#F2C14E'); R(9, -5 + oy, 1, 1, '#FF5A4A'); for(const xx of [2, 4, 14, 16]) for(let i = 0; i < 4; i++) R(xx, -2 + i * 2 + oy, 1, 1, i % 2 ? '#FF5A4A' : '#F2EEF4'); }
   }));
 }
 // nhân vật nhìn thẳng (v = 0) hoặc từ sau lưng (v = 2), dùng để xoay xem ở màn tạo nhân vật
@@ -1059,7 +1059,7 @@ function heroView(L, v){
   const A = L.ap || AP0(L.g), F = v === 0;
   const key = 'hv' + v + [L.g, L.hair, L.robe, L.trim, L.skin, L.at, L.ac, L.h, apStr(A)].join('|');
   return cached(key, () => spr(24, 34, (R0, x) => {
-    const R = (a, b, w, h, c) => R0(a + 3, b + 4, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 4, 1, 1);
+    const R = (a, b, w, h, c) => R0(a + 3, b + 6, w, h, c), C = (a, b) => x.clearRect(a + 3, b + 6, 1, 1);
     const sk = L.skin || SKINS[A.sk] || '#F2C9A0', rb = L.robe || '#4A5A7A', rd = shade(rb, -.25), tr = L.trim || '#F2C14E', hr = L.hair || '#1E1622', oy = 1, at = L.at || 1, ac = L.ac || tr;
     const ec = EYEC[A.ec] || '#1E1420', mc = MARKC[A.mc] || '#E0203A', hs = A.hs, os = A.os, dk = '#1E1420';
     if(at >= 4){ const cp = at >= 6 ? '#7A1A1A' : at === 5 ? '#4A2A7A' : shade(ac, -.35); if(F){ R(2, 12 + oy, 2, 11, cp); R(14, 12 + oy, 2, 11, cp); } else { R(3, 11 + oy, 12, 13, cp); R(3, 23 + oy, 12, 1, shade(cp, -.3)); R(8, 12 + oy, 2, 10, shade(cp, .15)); } }
@@ -1132,7 +1132,7 @@ function heroView(L, v){
 // cánh (24x22 mỗi bên), vẽ sau lưng
 function wingSprite(k, fr){
   // mỗi cánh vẽ theo đúng hình dạng tên gọi; (u,v) = toạ độ từ gốc cánh (u ra ngoài, v xuống dưới)
-  return cached('wi' + k + fr, () => { const I = WSH[k] || ITEMS[k], [c1, c2] = I.c, W = 30, H = 34, RX = 29, RY = 13;
+  return cached('wi' + k + fr, () => { const I = WSH[k] || ITEMS[k], [c1, c2] = I.c, W = 37, H = 42, RX = 33, RY = 19;
     const a = [0, -.26, .2][fr], ca = Math.cos(a), sa = Math.sin(a);
     const lerp = (p, q, t) => { const A = parseInt(p.slice(1), 16), B = parseInt(q.slice(1), 16), m = (s) => Math.round(((A >> s) & 255) * (1 - t) + ((B >> s) & 255) * t); return '#' + ((1 << 24) | (m(16) << 16) | (m(8) << 8) | m(0)).toString(16).slice(1); };
     const seg = (u, v, x0, y0, x1, y1) => { const dx = x1 - x0, dy = y1 - y0, l2 = dx * dx + dy * dy, t = Math.max(0, Math.min(1, ((u - x0) * dx + (v - y0) * dy) / l2)); return [Math.hypot(u - x0 - t * dx, v - y0 - t * dy), t]; };
@@ -2202,7 +2202,7 @@ function drawHero(ctx, x, y, L, st){
   if(L.cls === 'ma' && Math.random() < .15) fx.push({ k:'p', x:x + rnd(-8, 8), y:y - rnd(0, 20), vx:rnd(-4, 4), vy:-rnd(6, 16), t:0, d:.9, c:pick(['#5A0A1A', '#8A0A1A', '#2A0A10']) });
   if(L.cls === 'the' && !st.sit && Math.random() < .12) fx.push({ k:'p', x:x + rnd(-7, 7), y:y - rnd(2, 22), vx:rnd(-4, 4), vy:-rnd(14, 28), t:0, d:.7, c:pick(['#FFB04A', '#FF7A2A', '#FFD25A']), glow:1 });
   // cánh
-  if(L.wi && (ITEMS[L.wi] || WSH[L.wi])){ const wf = [0, 1, 0, 2][Math.floor(tNow * (st.moving ? 9 : 5) + x * .01) % 4], ws = wingImg(L.wi, wf, L.wt), wy = sy - 35 + bob; ctx.drawImage(ws, sx - 30, wy); ctx.drawImage(flipCached(ws), sx, wy);
+  if(L.wi && (ITEMS[L.wi] || WSH[L.wi])){ const wf = [0, 1, 0, 2][Math.floor(tNow * (st.moving ? 9 : 5) + x * .01) % 4], ws = wingImg(L.wi, wf, L.wt), wy = sy - 35 + bob; ctx.drawImage(ws, sx - 34, wy - 6); ctx.drawImage(flipCached(ws), sx - 3, wy - 6);
     const WS_ = L.wt && CAT[L.wt], WB = ITEMS[L.wi] || WSH[L.wi];
     if((WS_ ? WS_.g >= 2 : WB.t >= 5) && frame % (WS_ && WS_.g >= 3 ? 4 : 7) === 0) fx.push({ k:'p', x:x + rnd(-24, 24), y:y - rnd(14, 30), vx:rnd(-6, 6), vy:rnd(5, 20), t:0, d:1.2, c:WS_ ? WS_.fx || '#FFE07A' : WB.c[1], glow:1 }); }
   // vũ khí sau lưng cho môn phái không đeo kiếm
@@ -2210,8 +2210,8 @@ function drawHero(ctx, x, y, L, st){
   if(L.wfx && frame % 5 === 0) fx.push({ k:'p', x:x - (st.dir || 1) * rnd(2, 8), y:y - rnd(12, 30) - (L.mt ? 14 : 0), vx:rnd(-4, 4), vy:-rnd(6, 16), t:0, d:.8, c:L.wfx, glow:1 });
   let sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, beard:L.beard, npc:L.npc, skin:L.skin, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, st.sit ? 0 : fr);
   if(st.dir < 0) sp = flipCached(sp);
-  if(st.sit){ ctx.drawImage(sp, 0, 0, 24, 25, sx - 12, sy - 25 + bob + 2, 24, 25); ctx.fillStyle = L.robe; ctx.fillRect(sx - 8, sy - 3, 16, 3); }
-  else ctx.drawImage(sp, sx - 12, sy - 32 + bob);
+  if(st.sit){ ctx.drawImage(sp, 0, 0, 24, 27, sx - 12, sy - 27 + bob + 2, 24, 27); ctx.fillStyle = L.robe; ctx.fillRect(sx - 8, sy - 3, 16, 3); }
+  else ctx.drawImage(sp, sx - 12, sy - 34 + bob);
   front.forEach(drawSw);
   if(L.cos) drawCos(ctx, L.cos, sx, sy + bob, 1);
   // vầng sáng sau đầu từ Nguyên Anh
@@ -2498,8 +2498,8 @@ function itemIcon(k){
     const I = ITEMS[k]; c = cnv(28, 28); const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
     if(I.slot === 'w'){ x.translate(14, 14); if(fam !== 'the' && fam !== 'cung') x.rotate(Math.PI / 4); x.drawImage(fam && fam !== 'kiem' ? weaponSprite(k, fam) : swordSprite(k), -5, -14); }
     else if(I.slot === 'wi'){ const w = wingSprite(k, 0); x.drawImage(w, 3, 3, 11, 12); x.drawImage(flipCached(w), 14, 3, 11, 12); }
-    else if(I.slot === 'h'){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:'#3A2C52', trim:'#3A2C52', h:k }, 0); x.drawImage(sp, 3, 0, 18, 16, 2, 4, 24, 21); }
-    else { const sp = heroSprite({ g:'m', hair:'#1E1622', robe:I.t >= 4 ? shade(I.c, -.3) : I.c, trim:I.t >= 3 ? I.c : '#F2C14E', at:I.t, ac:I.c }, 0); x.drawImage(sp, 0, 11, 24, 22, 2, 4, 24, 22); }
+    else if(I.slot === 'h'){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:'#3A2C52', trim:'#3A2C52', h:k }, 0); x.drawImage(sp, 3, 1, 18, 17, 2, 3, 24, 22); }
+    else { const sp = heroSprite({ g:'m', hair:'#1E1622', robe:I.t >= 4 ? shade(I.c, -.3) : I.c, trim:I.t >= 3 ? I.c : '#F2C14E', at:I.t, ac:I.c }, 0); x.drawImage(sp, 0, 13, 24, 22, 2, 4, 24, 22); }
   }
   return ICONS[fam ? k + '@' + fam : k] = c;
 }
@@ -2563,7 +2563,7 @@ function hud(){
   $('#dtChar').classList.toggle('hidden', !((isGate(P.stage) && P.exp >= needExp(P.stage)) || skAvail() > 0));
   drawAva();
 }
-function drawAva(){ const a = $('#ava').getContext('2d'); a.clearRect(0, 0, 16, 16); a.imageSmoothingEnabled = false; const L = look(), sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, ap:L.ap }, 0); a.drawImage(sp, 4, 3, 16, 16, 0, 0, 16, 16); }
+function drawAva(){ const a = $('#ava').getContext('2d'); a.clearRect(0, 0, 16, 16); a.imageSmoothingEnabled = false; const L = look(), sp = heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, ap:L.ap }, 0); a.drawImage(sp, 4, 5, 16, 16, 0, 0, 16, 16); }
 
 /* ======================= NHIỆM VỤ ======================= */
 const today = () => new Date().toISOString().slice(0, 10);
@@ -2681,7 +2681,7 @@ const NPCV = {
 const pickR = a => a[Math.floor(Math.random() * a.length)];
 const subT = t => { const m = P.g !== 'f'; return t.replace(/\{name\}/g, P.name).replace(/\{sh\}/g, m ? Lx("sư huynh") : Lx("sư tỷ")).replace(/\{tt\}/g, m ? Lx("tiểu tử") : Lx("cô nương")).replace(/\{realm\}/g, realmName(P.stage)); };
 const PORT = {};
-function portrait(k){ if(PORT[k]) return PORT[k]; const sp = heroSprite(Object.assign({}, npcLook(k)), 0), c = cnv(80, 80), x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(sp, 4, 2, 19, 19, 2, 6, 76, 76); return PORT[k] = c.toDataURL(); }
+function portrait(k){ if(PORT[k]) return PORT[k]; const sp = heroSprite(Object.assign({}, npcLook(k)), 0), c = cnv(80, 80), x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(sp, 4, 4, 19, 19, 2, 6, 76, 76); return PORT[k] = c.toDataURL(); }
 let VI_VOICE = null;
 function pickVoice(){ try{ const vs = speechSynthesis.getVoices(); VI_VOICE = vs.find(v => new RegExp('^' + LANG + '([-_]|$)', 'i').test(v.lang)) || null; }catch(e){ VI_VOICE = null; } }
 if('speechSynthesis' in window){ pickVoice(); try{ speechSynthesis.addEventListener('voiceschanged', pickVoice); }catch(e){} }
@@ -2857,8 +2857,8 @@ let invF = '', invSel = null, invSort = 'tier';
 function heroPreview(){
   const C = cls(), L = look(), pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
-  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 6, 2); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 36, 2); }
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 19);
+  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 2, -4); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 33, -4); }
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 17);
   return pv.toDataURL();
 }
 function itemTip(it){
@@ -2962,10 +2962,10 @@ function charSheet(){
   const S = stats(), s = P.stage, gate = isGate(s), full = P.exp >= needExp(s), C = cls(), L = look();
   const pv = cnv(72, 60), x = pv.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(36, 52, 2, 36, 52, 30); gr.addColorStop(0, (L.au >= 3 ? AURA_C[L.au] : C.c) + '99'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 26, 72, 34);
-  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 6, 2); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 36, 2); }
+  if(L.wi){ x.drawImage(wingImg(L.wi, 0, L.wt), 2, -4); x.drawImage(flip(wingImg(L.wi, 0, L.wt)), 33, -4); }
   const nS = (P.cls || 'kiem') === 'kiem' ? Math.min(4, 1 + Math.floor(((L.sw || 1) - 1) / 2)) : 0, pos = [...Array(nS)].map((_, i) => { const a = .6 + i * Math.PI * 2 / nS; return [Math.round(36 + Math.cos(a) * 20 - 3), Math.round(44 + Math.sin(a) * 4 - 10), Math.sin(a)]; });
   pos.filter(p => p[2] < 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 19);
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), 24, 17);
   pos.filter(p => p[2] >= 0).forEach(p => x.drawImage(miniSword(L.w, L.wc), p[0], p[1]));
   const card = sl => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="fcard${it ? ' on' : ''}" data-slot="${sl}" style="--cc:${I ? rarC(I.t) : '#555'}">${it ? iconHtml(ik(it), 40) : `<span class="fi" style="opacity:.35">＋</span>`}<span class="fn"><b style="color:${I ? rarC(I.t) : 'var(--paper2)'}">${I ? itName(it) + (it.plus ? ' +' + it.plus : '') : SLOTN[sl]}</b><small>${I ? `${RAR[I.t][0]} · ${SLOTN[sl]}${(it.r || []).length ? ' · ' + it.r.length + '✦' : ''}` : Lx("Chưa trang bị")}</small></span></button>`; };
   let left = '';
@@ -3526,9 +3526,9 @@ function cosPreview(o, ride){
   const C = cls(), L = look(Object.assign({}, P, { wr:o, ride:ride ? 1 : 0 })), c = cnv(104, 78), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
   const gr = x.createRadialGradient(52, 70, 2, 52, 70, 42); gr.addColorStop(0, C.c + '77'); gr.addColorStop(1, '#00000000'); x.fillStyle = gr; x.fillRect(0, 32, 104, 46);
   const mt = CAT[L.mt] || {}, riding = !!L.mt, hy = riding ? (mt.fly ? (mt.f === 'rong' ? 16 : 22) : 28) : 36, cx = 40;
-  if(L.wi){ const w = wingImg(L.wi, 0, L.wt); x.drawImage(w, cx - 22, hy - 3); x.drawImage(flip(w), cx + 8, hy - 3); }
+  if(L.wi){ const w = wingImg(L.wi, 0, L.wt); x.drawImage(w, cx - 26, hy - 9); x.drawImage(flip(w), cx + 5, hy - 9); }
   if(riding){ const ms = mountSprite(L.mt, 0); x.drawImage(ms, Math.round(cx + 12 - ms.width / 2), mt.fly ? 56 - ms.height + 4 : 50); }
-  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), cx - 4, hy);
+  x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:L.robe, trim:L.trim, at:L.at, ac:L.ac, h:L.h, bw:L.bw, bc:L.wc, ap:L.ap }, 0), cx - 4, hy - 2);
   if(L.pt){ const ps = petSprite(L.pt, 0), pc = CAT[L.pt]; x.drawImage(ps, 8, 60 - (['phuong', 'long'].includes(pc.f) ? 14 : 0)); }
   if(cosTab === 'weapon'){ const f = myFam(), ws = wpnSpr(L.w, f, L.wc); x.save(); x.translate(86, 40); x.rotate(f === 'the' || f === 'cung' ? 0 : .35); x.drawImage(ws, -Math.round(ws.width / 2), -13); x.restore(); }
   return c.toDataURL();
@@ -3537,7 +3537,7 @@ function catIcon(id){
   const C = CAT[id];
   if(C.k === 'weapon') return cached('ci' + id + myFam(), () => { const c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false; const f = myFam(), ws = wpnSpr('w3', f, C.c); x.translate(14, 14); if(f !== 'the' && f !== 'cung') x.rotate(Math.PI / 4); x.drawImage(ws, -5, -14); return c; });
   return cached('ci' + id, () => { const c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false;
-    if(C.k === 'outfit'){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:C.robe || '#4A5A7A', trim:C.trim || '#F2C14E', at:3, ac:C.ac || '#3E8E6E' }, 0); x.drawImage(sp, 0, 6, 24, 24, 2, 3, 24, 24); }
+    if(C.k === 'outfit'){ const sp = heroSprite({ g:'m', hair:'#1E1622', robe:C.robe || '#4A5A7A', trim:C.trim || '#F2C14E', at:3, ac:C.ac || '#3E8E6E' }, 0); x.drawImage(sp, 0, 8, 24, 24, 2, 3, 24, 24); }
     else if(C.k === 'wing'){ const w = wingImg(C.wi, 0, id); x.drawImage(w, 1, 3, 13, 15); x.drawImage(flip(w), 14, 3, 13, 15); }
     else if(C.k === 'mount'){ const ms = mountSprite(id, 0), k = Math.min(28 / ms.width, 24 / ms.height); x.drawImage(ms, 0, 0, ms.width, ms.height, Math.round((28 - ms.width * k) / 2), Math.round((28 - ms.height * k) / 2), ms.width * k, ms.height * k); }
     else x.drawImage(petSprite(id, 0), 0, 0, 16, 14, 2, 4, 24, 21);
@@ -3547,7 +3547,7 @@ function typIcon(tid){
   const T = TYP[tid];
   const mk = draw => { const c = cnv(28, 28), x = c.getContext('2d'); x.imageSmoothingEnabled = false; draw(x); return c; };
   if(T.none) return cached('tyn' + tid, () => mk(x => { x.strokeStyle = '#8A8A9A'; x.lineWidth = 2; x.beginPath(); x.arc(14, 14, 8, 0, 7); x.moveTo(8, 20); x.lineTo(20, 8); x.stroke(); }));
-  if(T.k === 'outfit'){ const L = look(), a = T.it || null, I = a ? ITEMS[a] : null; return mk(x => x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:P.robe, trim:I ? (I.t >= 3 ? I.c : '#F2C14E') : L.trim, at:I ? I.t : L.at, ac:I ? I.c : L.ac }, 0), 0, 6, 24, 24, 2, 3, 24, 24)); }
+  if(T.k === 'outfit'){ const L = look(), a = T.it || null, I = a ? ITEMS[a] : null; return mk(x => x.drawImage(heroSprite({ g:L.g, hair:L.hair, robe:P.robe, trim:I ? (I.t >= 3 ? I.c : '#F2C14E') : L.trim, at:I ? I.t : L.at, ac:I ? I.c : L.ac }, 0), 0, 8, 24, 24, 2, 3, 24, 24)); }
   if(T.k === 'weapon'){ const f = myFam(), k = T.it || look().w || 'w1'; return mk(x => { x.translate(14, 14); if(f !== 'the' && f !== 'cung') x.rotate(Math.PI / 4); x.drawImage(wpnSpr(k, f), -5, -14); }); }
   return catIcon(tyDef(tid));
 }
@@ -3898,7 +3898,7 @@ function cpvDraw(){
   const sp = vi === 0 ? heroView(L, 0) : vi === 2 ? heroView(L, 2) : vi === 1 ? heroSprite(L, 0) : flipCached(heroSprite(L, 0));
   const sx = .42 + .58 * Math.abs(Math.cos(off * Math.PI / 90)), bob = Math.round(Math.sin(now * 2.2) * .6);
   x.globalAlpha = .35; x.fillStyle = '#000'; x.beginPath(); x.ellipse(24, 40, 10 * (.7 + .3 * sx), 2.5, 0, 0, 7); x.fill(); x.globalAlpha = 1;
-  x.save(); x.translate(24, 0); x.scale(sx, 1); x.drawImage(sp, -12, 7 + bob); x.restore();
+  x.save(); x.translate(24, 0); x.scale(sx, 1); x.drawImage(sp, -12, 5 + bob); x.restore();
   CPV.raf = requestAnimationFrame(cpvDraw);
 }
 function cpvMount(L){
@@ -4481,7 +4481,7 @@ function classPreview(cl, g, hair, robe, extra){
     if(cl === 'dao' && !front){ x.fillStyle = '#5A4A3A'; x.fillRect(45, 14, 2, 8); x.fillStyle = '#D8DEE8'; for(let i = 0; i < 18; i++) x.fillRect(46 + Math.round(i * .12), 22 + i, 2 + (i > 12 ? 1 : 0), 1); }
   };
   fxs(false);
-  x.drawImage(heroSprite(Object.assign({ g, hair, robe, trim:'#F2C14E', at:1, ac:'#9A8A7A' }, extra || {}), 0), 24, 19);
+  x.drawImage(heroSprite(Object.assign({ g, hair, robe, trim:'#F2C14E', at:1, ac:'#9A8A7A' }, extra || {}), 0), 24, 17);
   fxs(true);
   return c.toDataURL();
 }
@@ -4577,7 +4577,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { appearSheet, heroView, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
