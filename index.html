@@ -688,7 +688,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=23"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=24"><\/script>');
 })();
 </script>
 <script>
@@ -1679,7 +1679,7 @@ function startInv(o){ const v = { hp:5, mp:3, x2:0, pc:0, tbl:3, st0:0 }; const 
 function newPlayer(o){
   return { v:1, name:o.name, g:o.g, hair:o.hair, robe:o.robe, ap:o.ap || AP0(o.g), stage:0, exp:0, st:100, hp:9e9, mp:9e9, map:'thon', x:25 * TS, y:21 * TS,
     cls:o.cls || 'kiem', keep:o.keep || 'none', inv:startInv(o), bag:[{ id:1, k:'w1', plus:0 }, { id:2, k:'a1', plus:0 }], eq:{ w:1, a:2, wi:0 }, nid:3,
-    q:{ i:0, p:0 }, daily:{ d:'', p:0, done:0 }, buff:{ x2:0 }, t:Date.now(), auto:false, kills:0, deaths:0 };
+    sg:1, mapOk:{}, q:{ i:0, p:0 }, daily:{ d:'', p:0, done:0 }, buff:{ x2:0 }, t:Date.now(), auto:false, kills:0, deaths:0 };
 }
 const itemOf = id => P.bag.find(b => b.id === id);
 function eqStat(slot){ const b = itemOf(P.eq[slot]); if(!b) return null; return { b, I:ITEMS[b.k], m:1 + b.plus * .1 }; }
@@ -1753,7 +1753,7 @@ addEventListener('resize', resize);
 
 function enterMap(id, x, y, silent){
   if(DG && id !== DG.mid){ delete MAPS[DG.mid]; DG = null; }
-  M = MAPS[id]; P.map = id; me.x = x; me.y = y; me.tx = null; me.target = null;
+  M = MAPS[id]; P.map = id; if(MAP_NEED[id]){ P.mapOk = P.mapOk || {}; P.mapOk[id] = 1; } me.x = x; me.y = y; me.tx = null; me.target = null;
   mobs = []; projs = []; fx = []; drops = []; warns = [];
   M.spawns.forEach(sp => { for(let i = 0; i < sp.n; i++) spawnMob(sp); });
   $('#mapname').textContent = M.name + (M.safe ? Lx(" · An toàn") : '');
@@ -1935,7 +1935,7 @@ function bossAI(m, dt, d){
   return [0, 0];
 }
 const shake = a => { shakeA = Math.max(shakeA, a); };
-function nearestMob(r = 150){ let b = null, bd = r; for(const m of mobs){ if(m.dead) continue; const d = Math.hypot(m.x - me.x, m.y - me.y); if(d < bd){ bd = d; b = m; } } return b; }
+function nearestMob(r = 150){ let b = null, bd = r; for(const m of mobs){ if(m.dead || sealedM(m)) continue; const d = Math.hypot(m.x - me.x, m.y - me.y); if(d < bd){ bd = d; b = m; } } return b; }
 function basicDone(){
   cds.atk = tNow + (cds.atk - tNow) * (1 - .06 * skv('atk2')); me.bc = (me.bc || 0) + 1; const t = me.target, S = stats();
   if(skv('atkA') && me.bc % 4 === 0 && t && !t.dead){ hitMob(t, 1.5, '#F2C14E'); fx.push({ k:'ring', x:t.x, y:t.y, t:0, d:.35, c:'#F2C14E' }); }
@@ -1943,8 +1943,18 @@ function basicDone(){
 }
 function attackPress(){ const nn = nearNpc(); if(nn && !DLG){ npcTalk(nn); return; } if(nearWp() && !DLG){ wpSheet(); return; } if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } }
 function dmgRoll(atk, def, mul = 1){ const S = stats(); let d = Math.max(1, atk * mul * rnd(.9, 1.1) - def * .5); let crit = Math.random() < S.crit; if(crit) d *= S.critd; return [Math.round(d), crit]; }
+// vòng phong ấn quanh boss chưa tới lượt
+function drawSeal(ctx, m, cx, cy){
+  const X = Math.round(m.x - cx), Y = Math.round(m.y - cy), r = Math.max(20, m.D.w * (m.D.sc || 1) * .7), H = m.D.h * (m.D.sc || 1);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .22 + Math.sin(tNow * 2.4) * .06; ctx.fillStyle = '#F2C14E';
+  ctx.beginPath(); ctx.ellipse(X, Y - H * .45, r, H * .65, 0, 0, 7); ctx.fill(); ctx.globalAlpha = .9; ctx.fillStyle = '#FFE7A0';
+  for(let i = 0; i < 10; i++){ const an = tNow * 1.3 + i * .628, px = X + Math.cos(an) * r, py = Y - 2 + Math.sin(an) * r * .32; ctx.fillRect(Math.round(px) - 1, Math.round(py) - 1, 3, 3); }
+  for(let i = 0; i < 3; i++){ const yy = Math.round(Y - H * (.2 + i * .28)); ctx.fillStyle = i % 2 ? '#C9912A' : '#F2C14E'; ctx.fillRect(X - r + 4, yy, r * 2 - 8, 1); }
+  ctx.restore(); ctx.font = '700 8px system-ui'; ctx.textAlign = 'center'; ctx.fillStyle = '#000'; ctx.fillText('🔒 ' + Lx("Phong ấn"), X + 1, Y - H - 9); ctx.fillStyle = '#FFE7A0'; ctx.fillText('🔒 ' + Lx("Phong ấn"), X, Y - H - 10);
+}
 function hitMob(m, mul, color){
   if(m.dead) return;
+  if(sealedM(m)){ if(!m._sT || tNow - m._sT > 1.2){ m._sT = tNow; texts.push({ x:m.x, y:m.y - m.D.h * 2, t:0, s:Lx("Phong ấn"), c:'#F2C14E' }); const qi = storyQ().boss[m.k]; toast(Lx("{0} đang bị phong ấn. Làm tới nhiệm vụ “{1}” mới đánh được.", m.D.n, QUESTS[qi].t)); } return; }
   if(m.inv && m.inv > tNow){ if(!m._invT || tNow - m._invT > .5){ m._invT = tNow; texts.push({ x:m.x, y:m.y - m.D.h * 2, t:0, s:Lx("Miễn nhiễm"), c:'#F2C14E' }); } return; }
   const S = stats(), [d, crit] = dmgRoll(S.atk, m.L * 1.5, mul * (m.D.boss ? 1 + S.boss / 100 : 1) * (P.cls === 'ma' && me.hp < S.hp * .4 ? 1.35 : 1) * (skv('hoB') && shield > 0 ? 1.25 : 1));
   if(S.ls && !me.dead) me.hp = Math.min(S.hp, me.hp + Math.min(d * S.ls / 100, S.hp * .04));
@@ -2089,7 +2099,8 @@ function update(dt){
   if(me.sit){ let r = needExp(P.stage) / 1800 * (onPlatform() ? 2 : 1); if(P.buff.x2 > Date.now()) r *= 2; me.medAcc = (me.medAcc || 0) + r * dt; if(me.medAcc >= 1){ const n = Math.floor(me.medAcc); me.medAcc -= n; gainExp(n); } me.medT = (me.medT || 0) + dt; if(me.medT >= 1){ me.medT -= 1; if(onPlatform()) questEvent('med'); } if(frame % 12 === 0) fx.push({ k:'p', x:me.x + rnd(-10, 10), y:me.y - rnd(0, 6), vx:0, vy:-25, t:0, d:1.2, c:onPlatform() ? '#F2C14E' : '#9BE0FF' }); }
   // cổng dịch chuyển
   for(const pt of M.portals){ if(pt.to === '__dgexit') continue; if(Math.hypot(pt.x - me.x, pt.y - me.y) < 12 && !me.porting){
-    if(pt.need && P.stage < pt.need){ if(!me.warned){ me.warned = 1; toast(`${Lx("Cần đạt {0} mới vào được {1}", realmName(pt.need), pt.label)}`); setTimeout(() => me.warned = 0, 3000); } me.x -= Math.sign(pt.x - me.x || 1) * 10; continue; }
+    const lk = pt.need && P.stage < pt.need ? Lx("Cần đạt {0} mới vào được {1}", realmName(pt.need), pt.label) : MAPS[pt.to] ? mapLock(pt.to) : null;
+    if(lk){ if(!me.warned){ me.warned = 1; toast(lk); setTimeout(() => me.warned = 0, 3000); } me.x -= Math.sign(pt.x - me.x || 1) * 10; continue; }
     me.porting = true; fade(() => { enterMap(pt.to, pt.tx, pt.ty); me.porting = false; });
   } }
   // quái
@@ -2097,7 +2108,8 @@ function update(dt){
     if(m.dead){ if(m.temp){ m.gone = 1; continue; } m.re -= dt; if(m.re <= 0){ m.dead = false; m.hp = m.max; m.x = m.hx; m.y = m.hy; m.st = 'idle'; m.aggro = false; m.intro = 0; m.ph2 = 0; m.ph = 0; m.cut = null; m.inv = 0; m.rain = 0; m.thr = 0; m.act = null; m.sk = undefined; } continue; }
     m.hit = Math.max(0, m.hit - dt); m.cd -= dt; m.t -= dt;
     const d = Math.hypot(me.x - m.x, me.y - m.y), home = Math.hypot(m.hx - m.x, m.hy - m.y);
-    if(!me.dead && (d < (m.D.boss ? 90 : m.el ? 85 : 72) || m.aggro) && home < (m.D.boss ? 330 : 220) && !M.safe) m.st = 'chase';
+    const seal = sealedM(m); if(seal && m.st === 'chase'){ m.st = 'home'; m.aggro = false; }
+    if(!seal && !me.dead && (d < (m.D.boss ? 90 : m.el ? 85 : 72) || m.aggro) && home < (m.D.boss ? 330 : 220) && !M.safe) m.st = 'chase';
     if(m.st === 'chase' && (home > (m.D.boss ? 360 : 240) || me.dead)){ m.st = 'home'; m.aggro = false; }
     let vx = 0, vy = 0;
     if(m.st === 'home' && m.D.boss){ m.ph2 = 0; m.ph = 0; m.cut = null; m.inv = 0; m.thr = 0; m.act = null; m.intro = 0; }
@@ -2350,7 +2362,7 @@ function renderW(){
   list.sort((a, b) => a[0] - b[0]);
   for(const [, k, e] of list){
     if(k === 0){ ctx.drawImage(e.s, Math.round(e.x - e.s.width / 2 - cx), Math.round(e.y - e.s.height - cy)); if(e.k === 'lantern' && M.dark !== undefined){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .18 + Math.sin(tNow * 3 + e.x) * .05; ctx.fillStyle = '#FF7A3A'; ctx.beginPath(); ctx.arc(e.x - cx, e.y - cy - 21, 12, 0, 7); ctx.fill(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } }
-    else if(k === 1 && e.D.boss){ drawBoss(ctx, e, cx, cy); }
+    else if(k === 1 && e.D.boss){ drawBoss(ctx, e, cx, cy); if(sealedM(e)) drawSeal(ctx, e, cx, cy); }
     else if(k === 1){ const s = mobSprite(e.k, Math.floor(e.fr) % 2), sp = e.dir < 0 ? flipCached(s) : s, x = Math.round(e.x - cx - s.width / 2 + (e.lunge ? e.dir * 3 : 0)), y = Math.round(e.y - cy - s.height); ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.fillRect(Math.round(e.x - cx - s.width / 3), Math.round(e.y - cy - 1), Math.round(s.width / 1.5), 3); if(e.D.boss){ ctx.globalAlpha = .3; ctx.fillStyle = e.k === 'mavuong' ? '#9B3AE0' : '#E0303A'; ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy - 2, s.width / 2, 6, 0, 0, 7); ctx.fill(); ctx.globalAlpha = 1; } if(e.el){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .35 + Math.sin(tNow * 5) * .12; ctx.fillStyle = '#F2C14E'; ctx.beginPath(); ctx.ellipse(e.x - cx, e.y - cy - 1, s.width * .55, 5, 0, 0, 7); ctx.fill(); ctx.globalAlpha = .45; ctx.drawImage(tintCached(sp, '#F2C14E'), x - 1, y); ctx.drawImage(tintCached(sp, '#F2C14E'), x + 1, y); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; if(frame % 9 === 0) fx.push({ k:'p', x:e.x + rnd(-6, 6), y:e.y - rnd(2, s.height), vx:0, vy:-rnd(10, 22), t:0, d:.8, c:'#FFD25A', glow:1 }); }
       ctx.drawImage(sp, x, y); if(e.hit > 0){ ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .6; ctx.drawImage(sp, x, y); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } }
     else if(k === 2){ drawHero(ctx, e.x, e.y, Object.assign(npcLook(e.k), { w:'', sw:0 }), { dir:e.k === 'dan' ? -1 : 1 }); }
@@ -3016,6 +3028,22 @@ function langSheet(){
   document.querySelectorAll('[data-lg]').forEach(b => b.onclick = () => { if(b.dataset.lg === LANG) return closeSheet(); setLang(b.dataset.lg); });
 }
 const MAP_NEED = { madien:9, samac:21, bangnguyen:27, damlay:31 };
+/* ---- khoá theo cốt truyện: vùng đất và boss chỉ mở khi nhiệm vụ chính đã dẫn tới ---- */
+let _sq = null;
+function storyQ(){
+  if(_sq) return _sq; const f = fn => QUESTS.findIndex(fn), B = {};
+  QUESTS.forEach((q, i) => { if(q.k === 'kill' && MOBS[q.m] && MOBS[q.m].boss && !(q.m in B)) B[q.m] = i; });
+  return _sq = { map:{ madien:f(q => q.m === 'quy'), samac:f(q => q.k === 'stage' && q.n === 21), bangnguyen:f(q => q.k === 'stage' && q.n === 27), damlay:f(q => q.k === 'stage' && q.n === 31) }, boss:B };
+}
+const qDone = i => P.q.i >= i;
+// lý do chưa vào được bản đồ (null = vào được)
+function mapLock(id){
+  if(MAP_NEED[id] && P.stage < MAP_NEED[id]) return Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[id]), MAPS[id].name);
+  const qi = storyQ().map[id]; if(qi > 0 && !qDone(qi) && !(P.mapOk && P.mapOk[id])) return Lx("Chưa tới cốt truyện: làm xong nhiệm vụ “{0}” trước", QUESTS[qi - 1].t);
+  return null;
+}
+// boss chưa tới lượt trong cốt truyện thì bị phong ấn: không đánh được và cũng không tấn công
+function sealedM(m){ if(!m || m.temp || !m.D.boss) return false; const qi = storyQ().boss[m.k]; return qi !== undefined && !qDone(qi); }
 function partyHud(){ const el = document.getElementById('track'); if(el && P && me) el.innerHTML = trackHtml() + partyHtml(); }
 function partyHtml(){
   const mem = Party.code ? Object.entries(Party.mem) : [], n = Party.code ? mem.length : 1, onl = mem.filter(([id, m]) => id === Net.uid || Date.now() - (m.ct || 0) < 15000).length || 1, op = trOpen === 'p';
@@ -3033,7 +3061,7 @@ function partyGo(id){
   const m0 = Party.mem[id]; if(m0 && !MAPS[m0.map] && Party.dg && m0.map === 'bc' + Party.dg.seed && !DG) return joinDungeon(Party.dg);
   const m = Party.mem[id]; if(!m || !MAPS[m.map] || !me || me.dead) return;
   if(Date.now() - (m.ct || 0) > 15000) return toast(Lx("Đồng đội đang ngoại tuyến"));
-  if(MAP_NEED[m.map] && P.stage < MAP_NEED[m.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[m.map]), MAPS[m.map].name));
+  { const lk = mapLock(m.map); if(lk) return toast(lk); }
   const o = others[id], same = M && m.map === M.id, x = same && o ? o.x : m.x, y = same && o ? o.y : m.y;
   if(same && Math.hypot(x - me.x, y - me.y) < 40) return toast(Lx("Đang đứng cạnh {0} rồi", m.n));
   if(Date.now() - _pgoT < 8000) return toast(Lx("Chờ {0} giây nữa mới dịch chuyển tiếp được", Math.ceil((8000 - (Date.now() - _pgoT)) / 1000)));
@@ -3219,9 +3247,9 @@ function wpSheet(){
   const here = nearWp(), tk = P.inv.tp || 0;
   sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🌀 ${Lx("Truyền Tống Trận")}</h2>
     <p class="sub">${here ? Lx("Đang đứng tại {0}: dịch chuyển miễn phí.", here.n) : Lx("Mỗi lần dịch chuyển tốn 1 Truyền Tống Phù. Đứng tại trận thì miễn phí.")} ${Lx("Đang có")} <b style="color:#7FC8FF">${tk}</b> ${PILLS.tp.n}.</p>
-    ${Object.keys(WPDEF).map(id => `<h3>${MAPS[id].name}${MAP_NEED[id] && P.stage < MAP_NEED[id] ? ` · 🔒 ${realmName(MAP_NEED[id])}` : ''}</h3>${MAPS[id].wps.map(w => { const on = wpOn(w.id), cur = here && here.id === w.id; return `<div class="line" style="${on ? '' : 'opacity:.5'}"><div class="g"><b>${on ? '🌀 ' + w.n : '??? ' + Lx("Chưa khám phá")}</b><small>${cur ? Lx("Bạn đang ở đây") : on ? (here ? Lx("Miễn phí") : Lx("Tốn 1 phù")) : Lx("Đi tới gần trận để kích hoạt")}</small></div>${on && !cur ? `<button class="s" data-wp="${w.id}">${Lx("Đi")}</button>` : ''}</div>`; }).join('')}`).join('')}
+    ${Object.keys(WPDEF).map(id => `<h3>${MAPS[id].name}${mapLock(id) ? ` · 🔒 ${MAP_NEED[id] && P.stage < MAP_NEED[id] ? realmName(MAP_NEED[id]) : Lx("Chưa tới cốt truyện")}` : ''}</h3>${MAPS[id].wps.map(w => { const on = wpOn(w.id), cur = here && here.id === w.id; return `<div class="line" style="${on ? '' : 'opacity:.5'}"><div class="g"><b>${on ? '🌀 ' + w.n : '??? ' + Lx("Chưa khám phá")}</b><small>${cur ? Lx("Bạn đang ở đây") : on ? (here ? Lx("Miễn phí") : Lx("Tốn 1 phù")) : Lx("Đi tới gần trận để kích hoạt")}</small></div>${on && !cur ? `<button class="s" data-wp="${w.id}">${Lx("Đi")}</button>` : ''}</div>`; }).join('')}`).join('')}
     <p class="sub">${Lx("Mua Truyền Tống Phù ở Đan Sư, hoặc nhặt khi diệt yêu ma (boss rơi chắc chắn).")}</p>`);
-  document.querySelectorAll('[data-wp]').forEach(b => b.onclick = () => { const w = WPS[b.dataset.wp]; if(MAP_NEED[w.map] && P.stage < MAP_NEED[w.map]) return toast(Lx("Cần đạt {0} mới vào được {1}", realmName(MAP_NEED[w.map]), MAPS[w.map].name)); const free = !!nearWp(); if(!free){ if(!(P.inv.tp > 0)) return toast(Lx("Hết Truyền Tống Phù, mua ở Đan Sư nha")); P.inv.tp--; }
+  document.querySelectorAll('[data-wp]').forEach(b => b.onclick = () => { const w = WPS[b.dataset.wp]; { const lk = mapLock(w.map); if(lk) return toast(lk); } const free = !!nearWp(); if(!free){ if(!(P.inv.tp > 0)) return toast(Lx("Hết Truyền Tống Phù, mua ở Đan Sư nha")); P.inv.tp--; }
     closeSheet(); sfx.skill(); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:.8, c:'#7FC8FF' }); flash = .3; fade(() => { enterMap(w.map, w.x, w.y + 22); fx.push({ k:'pillar', x:me.x, y:me.y, t:0, d:1, c:'#7FC8FF' }); }); saveSoon(); });
 }
 function drawWps(ctx, cx, cy){
@@ -3250,8 +3278,8 @@ const UNL = [
   { id:'tp', ic:'🌀', t:Lx("Truyền Tống Trận"), b:() => Lx("Đã kích hoạt trận dịch chuyển. Mở bản đồ lớn → Truyền tống để đi nhanh, tốn 1 Truyền Tống Phù."), el:() => '#mmw', c:() => Object.keys(P.wp || {}).length > 0 },
   { id:'gate', ic:'⚡', t:Lx("Đột phá cảnh giới"), b:() => Lx("Tu vi đã đầy. Mở Nhân vật để độ thiên kiếp lên đại cảnh giới mới."), el:() => '#bChar', c:() => isGate(P.stage) && P.exp >= needExp(P.stage) },
   { id:'hoa', ic:'🔥', t:() => SKILLS.hoa.n, b:() => Lx("Tuyệt kỹ mới đã mở! Bấm nút này (phím 3) để dùng."), el:() => '#bS3', c:() => P.stage >= SKILLS.hoa.s },
-  { id:'madien', ic:'🌋', t:() => MAPS.madien.name, b:() => Lx("Vùng đất mới đã mở. Đi qua cổng phía đông Rừng Hắc Mộc."), el:() => '#mmw', c:() => P.stage >= MAP_NEED.madien },
-  { id:'samac', ic:'🏜', t:() => MAPS.samac.name, b:() => Lx("Vùng đất mới đã mở. Đi qua cổng phía nam Rừng Hắc Mộc."), el:() => '#mmw', c:() => P.stage >= MAP_NEED.samac },
+  { id:'madien', ic:'🌋', t:() => MAPS.madien.name, b:() => Lx("Vùng đất mới đã mở. Đi qua cổng phía đông Rừng Hắc Mộc."), el:() => '#mmw', c:() => !mapLock('madien') },
+  { id:'samac', ic:'🏜', t:() => MAPS.samac.name, b:() => Lx("Vùng đất mới đã mở. Đi qua cổng phía nam Rừng Hắc Mộc."), el:() => '#mmw', c:() => !mapLock('samac') },
 ];
 let unlT = 0, unlCur = null;
 function unlTick(dt){
@@ -3650,10 +3678,12 @@ const runOf = () => { const L = Party.code && Party.dg; return L && L.seed && !L
 const lobbyKey = () => Party.code ? Object.keys(Party.mem || {}).sort().map(k => k + (Party.mem[k].n || '') + (Party.mem[k].s || 0)).join(',') + '|' + JSON.stringify(lobbyOf() || {}) : 'solo';
 const inviteLink = () => location.origin + location.pathname + '?p=' + Party.code;
 function lobbyPush(extra){ if(!Party.code || !Net.ok) return; const L = lobbyOf(), v = Object.assign({ lobby:1, bc:bcSel, df:bcDf, by:Net.uid, n:P.name, t:Date.now(), rd:(L && L.rd) || {} }, extra || {}); Party.dg = v; Net.D.set(Net.partyRef('dg'), v).catch(e => console.warn(e)); }
+const BC_MAP = { lava:'madien', desert:'samac', snow:'bangnguyen', swamp:'damlay' };
+function bcLock(B){ if(P.stage < B.need) return Lx("Cần đạt Lv {0}", B.need + 1); const id = BC_MAP[B.th], qi = id ? storyQ().map[id] : -1; if(qi > 0 && !qDone(qi) && !(P.mapOk && P.mapOk[id])) return Lx("Chưa tới cốt truyện"); return null; }
 function bcSheet(){
   const inP = !!(Party.code && Net.ok), lob = lobbyOf(), lead = !lob || lob.by === Net.uid, run = runOf();
   if(lob && !lead){ bcSel = lob.bc; bcDf = lob.df; }
-  const B = BC[bcSel], ok = P.stage >= B.need, best = lead ? bcBest(B.id) : 2; if(lead && bcDf > best) bcDf = Math.min(best, 2);
+  const B = BC[bcSel], ok = !bcLock(B), best = lead ? bcBest(B.id) : 2; if(lead && bcDf > best) bcDf = Math.min(best, 2);
   if(inP && lead && !run && (!lob || lob.bc !== bcSel || lob.df !== bcDf)) lobbyPush();
   const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n), rd = (lobbyOf() || {}).rd || {};
   const mem = inP ? Object.entries(Party.mem || {}).filter(([id, m]) => id === Net.uid || Date.now() - (m.ct || 0) < 20000) : [[Net.uid || 'me', { n:P.name, s:P.stage, cl:P.cls }]];
@@ -3661,14 +3691,14 @@ function bcSheet(){
     const [id, m] = e, isL = (lobbyOf() ? lobbyOf().by : Net.uid) === id, low = (m.s || 0) < B.need;
     return `<div class="lbs${isL ? ' lead' : ''}"><i>${(CLASSES[m.cl] || CLASSES.kiem).ic}</i><b>${esc(m.n || '')}${id === Net.uid ? ` <small>(${Lx("bạn")})</small>` : ''}</b><small>${realmName(m.s || 0)}</small><em class="${low ? 'no' : isL || rd[id] ? 'ok' : ''}">${low ? Lx("Chưa đủ cấp") : isL ? '👑 ' + Lx("Đội trưởng") : rd[id] ? '✓ ' + Lx("Sẵn sàng") : Lx("Đang chờ…")}</em></div>`; };
   let act;
-  if(!inP) act = `<div class="row2"><button class="btn alt" id="bcInv">👥 ${Lx("Mời bạn bè")}</button>${ok ? `<button class="btn gold" id="bcGo">⚔ ${Lx("Chơi một mình")}</button>` : `<button class="btn" disabled>🔒 ${Lx("Cần đạt Lv {0}", B.need + 1)}</button>`}</div>`;
-  else if(lead) act = ok ? `<button class="btn gold" id="bcGo">⚔ ${Lx("Bắt đầu")} · ${mem.length}/4</button>` : `<button class="btn" disabled>🔒 ${Lx("Cần đạt Lv {0}", B.need + 1)}</button>`;
+  if(!inP) act = `<div class="row2"><button class="btn alt" id="bcInv">👥 ${Lx("Mời bạn bè")}</button>${ok ? `<button class="btn gold" id="bcGo">⚔ ${Lx("Chơi một mình")}</button>` : `<button class="btn" disabled>🔒 ${bcLock(B)}</button>`}</div>`;
+  else if(lead) act = ok ? `<button class="btn gold" id="bcGo">⚔ ${Lx("Bắt đầu")} · ${mem.length}/4</button>` : `<button class="btn" disabled>🔒 ${bcLock(B)}</button>`;
   else act = `<button class="btn ${rd[Net.uid] ? 'alt' : 'gold'}" id="bcRd">${rd[Net.uid] ? Lx("Huỷ sẵn sàng") : '✓ ' + Lx("Sẵn sàng")}</button><p class="sub" style="font-size:11.5px;text-align:center">${Lx("Chờ đội trưởng bấm bắt đầu, bạn sẽ tự vào cùng.")}</p>`;
   sheet(`<div class="bclobby"><button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🗝 ${Lx("Sảnh Bí Cảnh")}</h2>
     ${run && !DG ? `<div class="bcj"><span>👥 ${Lx("{0} đang ở {1} ({2})", esc(run.n), BC[run.bc].n, BCD[run.df].n)}</span><button class="btn gold" id="bcJoin">${Lx("Vào cùng")}</button></div>` : ''}
     <div class="lbg">${[0, 1, 2, 3].map(slot).join('')}</div>
     ${inP ? `<div class="lbinv"><span>${Lx("Mã tổ đội")} <b>${Party.code}</b></span><button class="s" id="bcCp">${Lx("Chép mã")}</button><button class="s" id="bcLk">🔗 ${Lx("Gửi link mời")}</button>${mem.length < 4 ? `<button class="s" id="bcQk">🎲 ${Lx("Ghép người lạ")}</button>` : ''}</div>` : ''}
-    <div class="bcl">${BC.map((b, i) => `<button class="bcc${i === bcSel ? ' on' : ''}${P.stage >= b.need ? '' : ' lk'}" data-bc="${i}" ${lead ? '' : 'disabled'}><i>${b.ic}</i><b>${b.n}</b><small>Lv ${b.need + 1}+ · <span class="st">${stars(bcBest(b.id))}</span></small></button>`).join('')}</div>
+    <div class="bcl">${BC.map((b, i) => `<button class="bcc${i === bcSel ? ' on' : ''}${bcLock(b) ? ' lk' : ''}" data-bc="${i}" ${lead ? '' : 'disabled'}><i>${b.ic}</i><b>${b.n}</b><small>Lv ${b.need + 1}+ · <span class="st">${stars(bcBest(b.id))}</span></small></button>`).join('')}</div>
     <div class="bcd"><div class="bch"><b>${B.ic} ${B.n}</b><small>${Lx("Quái cấp {0}", B.L)} · ${Lx("Tiểu Boss: {0}", MOBS[B.mini].n)} · ${Lx("Boss: {0}", MOBS[B.boss].n)}</small></div><p>${B.d}</p>
       <div class="bcdf">${BCD.map((d, i) => `<button data-df="${i}" class="${i === bcDf ? 'on' : ''}" style="--dc:${d.c}" ${i > best || !lead ? 'disabled' : ''}>${i > best ? '🔒 ' : ''}${d.n}<small>${i ? `${Lx("Máu x{0}", d.hp)} · ${Lx("Thưởng x{0}", d.rw)}` : Lx("Thưởng x1")}</small></button>`).join('')}</div>
       <p class="sub" style="font-size:11.5px">${lead ? Lx("Qua độ khó này để mở độ khó tiếp theo.") : Lx("Đội trưởng chọn màn và độ khó.")} ${Lx("Đông người thì quái trâu hơn, mỗi người tự nhặt đồ của mình, cả đội chung 3 mạng.")}</p>
@@ -3844,7 +3874,7 @@ function dgInvite(v){
 function joinDungeon(v){
   v = v || Party.dg; if(!v) return; const B = BC[v.bc];
   if(DG) return toast(Lx("Đang ở trong một Bí Cảnh khác"));
-  if(P.stage < B.need) return toast(Lx("Cần đạt Lv {0} mới vào được {1}", B.need + 1, B.n));
+  { const lk = bcLock(B); if(lk) return toast(lk + ' · ' + B.n); }
   closeSheet(); startDungeon(B, v.df, v.seed, true);
 }
 function dgTick(dt){
@@ -4550,6 +4580,7 @@ function begin(data, fresh){
   P = Object.assign(newPlayer({ name:data.name, g:data.g, hair:data.hair, robe:data.robe }), data);
   P.inv = Object.assign({ hp:0, mp:0, x2:0, pc:0 }, P.inv);
   if(P.inv.tp === undefined) P.inv.tp = 3;
+  if(!P.sg){ P.sg = 1; P.mapOk = P.mapOk || {}; for(const id in MAP_NEED) if(P.stage >= MAP_NEED[id]) P.mapOk[id] = 1; }
   if(!P.wr){ const o = P.wear || {}, ok = (id, k) => CAT[id] && CAT[id].k === k ? id : '';
     P.wr = Object.assign({}, WR0, { mount:ok(o.mount, 'mount') || 'mt_ngua', wing:ok(o.wing, 'wing') || 'wg_buom', pet:o.pet === 'pt_none' ? '' : ok(o.pet, 'pet') || 'pt_cho', as:ok(o.skin, 'outfit') || 'sk_def', mem:{} }); }
   P.typ = P.typ || {}; wr(); syncSeen();
@@ -4577,7 +4608,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { die, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { die, hitMob, mapLock, sealedM, bcLock, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
