@@ -3636,7 +3636,7 @@ function cosShop(){
     <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Tủ Ngoại Trang")}</span></div>`);
   document.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { cosTab = b.dataset.st; cosTy = null; cosSel = null; sfx.tap(); cosShop(); });
   document.querySelectorAll('[data-ty]').forEach(b => b.onclick = () => { cosTy = b.dataset.ty; cosSel = null; sfx.tap(); cosShop(); });
-  document.querySelectorAll('[data-sk]').forEach(b => b.onclick = () => { cosSel = b.dataset.sk; sfx.tap(); cosShop(); });
+  document.querySelectorAll('.skb[data-sk]').forEach(b => b.onclick = () => { cosSel = b.dataset.sk; sfx.tap(); cosShop(); });
   $('#shTop').onclick = topupSheet; $('#shAp').onclick = () => { sfx.tap(); appearSheet(); };
   const use = () => { wearSet(W, cosTy, cosSel); if(!share && cosSel) W.mem[cosTy] = cosSel; if(cosTab === 'mount') P.ride = true; _sk = ''; _hk = ''; Net.pushLook(); saveSoon(); };
   const u = $('#shUse'); if(u) u.onclick = () => { use(); sfx.lv(); cosShop(); };
@@ -4219,7 +4219,7 @@ $('#track').addEventListener('click', e => {
   const t = e.target.closest('[data-tr]'); if(t){ e.stopPropagation(); sfx.tap(); const k = t.dataset.tr; trOpen = trOpen === k || k === 'd' ? '' : k; if(k === 'd') questSheet(); partyHud(); }
 });
 $('#bAtk').onclick = attackPress; $('#bDodge').addEventListener('pointerdown', e => { e.preventDefault(); dodge(); }); $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
-document.querySelectorAll('[data-sk]').forEach(b => { b.onclick = () => useSkill(b.dataset.sk); holdTip(b, () => skillTip(b.dataset.sk)); });
+document.querySelectorAll('#acts [data-sk]').forEach(b => { b.onclick = () => useSkill(b.dataset.sk); holdTip(b, () => skillTip(b.dataset.sk)); });
 holdTip($('#bAtk'), () => { const nn = nearNpc(); return nn ? `<h4>${nn.n}</h4><p>${Lx("Bấm để nói chuyện.")}</p>` : skillTip('atk'); });
 holdTip($('#bPot'), () => `<h4>${PILLS.hp.n}</h4><div class="sub2">${Lx("Còn {0} viên · phím H", P.inv.hp || 0)}</div><p>${PILLS.hp.d}</p>`);
 holdTip($('#bAuto'), () => `<h4>${Lx("Tự đánh")}</h4><div class="sub2">${Lx("Phím T")}</div><p>${Lx("Tự tìm quái gần nhất, tự dùng chiêu và uống thuốc khi máu thấp.")}</p>`);
