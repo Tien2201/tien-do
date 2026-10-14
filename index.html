@@ -2605,7 +2605,7 @@ function hud(){
   $('#meName').textContent = P.name; $('#meRealm').textContent = realmName(P.stage); $('#meRealm').style.color = majorOf(P.stage).c;
   $('#potN').textContent = P.inv.hp || 0;
   $('#buffs').innerHTML = P.buff.x2 > Date.now() ? Lx("<span>Tụ Khí x2</span>") : '';
-  $('#track').innerHTML = trackHtml() + partyHtml(); $('#dtQuest').classList.toggle('hidden', !questReady());
+  partyHud(); $('#dtQuest').classList.toggle('hidden', !questReady());
   $('#dtChar').classList.toggle('hidden', !((isGate(P.stage) && P.exp >= needExp(P.stage)) || skAvail() > 0));
   drawAva();
 }
@@ -2688,7 +2688,8 @@ function drawMini(){
   mobs.forEach(m => { if(!m.dead && m.D.boss) dot(m.x, m.y, '#FF4A3A', 7); });
   x.restore();
   const gh = goalHere(); if(gh){ let [a, b] = toS(gh.x, gh.y); const dx = a - Cx, dy = b - Cx, d = Math.hypot(dx, dy); if(d > R - 10){ a = Cx + dx / d * (R - 10); b = Cx + dy / d * (R - 10); } x.save(); x.translate(a, b); x.rotate(Math.PI / 4); x.fillStyle = '#F2C14E'; x.strokeStyle = '#1A1408'; x.lineWidth = 2; x.fillRect(-7, -7, 14, 14); x.strokeRect(-7, -7, 14, 14); x.restore();
-    const el = $('#qDist'); if(el){ const m = Math.round(Math.hypot(gh.x - me.x, gh.y - me.y) / TS * 2); el.textContent = (gh.via ? Lx("Qua cổng") + ' · ' : '') + (m >= 1000 ? (m / 1000).toFixed(2) + ' km' : m + ' m'); } }
+    const el = $('#qDist'); if(el){ const m = Math.round(Math.hypot(gh.x - me.x, gh.y - me.y) / TS * 2), t = (gh.via ? Lx("Qua cổng") + ' · ' : '') + (m >= 1000 ? (m / 1000).toFixed(2) + ' km' : m + ' m'); if(el.textContent !== t) el.textContent = t; } }
+  else { const el = $('#qDist'); if(el && el.textContent) el.textContent = ''; }
   x.save(); x.translate(Cx, Cx); x.rotate(me.dir > 0 ? Math.PI / 2 : -Math.PI / 2); x.fillStyle = '#FFFFFF'; x.strokeStyle = '#000'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, -11); x.lineTo(8, 8); x.lineTo(0, 4); x.lineTo(-8, 8); x.closePath(); x.stroke(); x.fill(); x.restore();
   x.strokeStyle = 'rgba(233,228,216,.75)'; x.lineWidth = 2.5; x.beginPath(); x.arc(Cx, Cx, R, 0, 7); x.stroke(); x.strokeStyle = 'rgba(233,228,216,.25)'; x.lineWidth = 1.5; x.beginPath(); x.arc(Cx, Cx, R - 7, 0, 7); x.stroke();
   for(let i = 0; i < 24; i++){ const a = i / 24 * Math.PI * 2; x.strokeStyle = 'rgba(233,228,216,.5)'; x.lineWidth = i % 6 ? 1 : 2.5; x.beginPath(); x.moveTo(Cx + Math.cos(a) * R, Cx + Math.sin(a) * R); x.lineTo(Cx + Math.cos(a) * (R - (i % 6 ? 5 : 10)), Cx + Math.sin(a) * (R - (i % 6 ? 5 : 10))); x.stroke(); }
@@ -3082,7 +3083,9 @@ function mapLock(id){
 }
 // boss chưa tới lượt trong cốt truyện thì bị phong ấn: không đánh được và cũng không tấn công
 function sealedM(m){ if(!m || m.temp || !m.D.boss) return false; const qi = storyQ().boss[m.k]; return qi !== undefined && !qDone(qi); }
-function partyHud(){ const el = document.getElementById('track'); if(el && P && me) el.innerHTML = trackHtml() + partyHtml(); }
+// chỉ vẽ lại khi nội dung đổi, và giữ nguyên dòng khoảng cách để ô nhiệm vụ không nhảy chiều cao
+let _trH = '';
+function partyHud(){ const el = document.getElementById('track'); if(!el || !P || !me) return; const h = trackHtml() + partyHtml(); if(h === _trH && el.innerHTML) return; _trH = h; const od = document.getElementById('qDist'), old = od ? od.textContent : ''; el.innerHTML = h; const nd = document.getElementById('qDist'); if(nd && old) nd.textContent = old; }
 function partyHtml(){
   const mem = Party.code ? Object.entries(Party.mem) : [], n = Party.code ? mem.length : 1, onl = mem.filter(([id, m]) => id === Net.uid || Date.now() - (m.ct || 0) < 15000).length || 1, op = trOpen === 'p';
   const talk = mem.some(([id]) => id !== Net.uid && talking(id));
