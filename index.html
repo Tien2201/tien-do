@@ -2092,7 +2092,8 @@ function update(dt){
     if(me.mp < 15 && P.inv.mp) drinkMp();
     if(me.target){ for(const k of ['ho', 'hoa', 'van']){ const sk = SKILLS[k]; if(P.stage >= sk.s && cds[k] <= tNow && me.mp >= sk.mp && (k !== 'ho' || me.hp < S.hp * .7)) { useSkill(k); break; } } }
   }
-  if(me.target && !me.target.dead && Math.hypot(mx, my) <= .15){
+  const steer = Math.hypot(mx, my) > .15;
+  if(me.target && !me.target.dead && (!steer || Math.hypot(me.target.x - me.x, me.target.y - me.y) <= (cls().rng || 80))){
     const d = Math.hypot(me.target.x - me.x, me.target.y - me.y);
     const rng = cls().rng || 80;
     if(d > rng){ if(!P.auto && d > 340) me.target = null; else { mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; } }
