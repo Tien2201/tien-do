@@ -3483,7 +3483,10 @@ const CAT = {
 for(const id in CAT){ const C = CAT[id], T = TYP[C.ty]; C.k = T ? T.k : C.ty === '*o' ? 'outfit' : 'weapon'; if(T){ if(T.f !== undefined) C.f = T.f; if(T.fly) C.fly = 1; if(T.wi) C.wi = T.wi; } }
 const GRADE = [['', '#9A9AAA'], ['S', '#5EB8FF'], ['SS', '#C99BFF'], ['SSS', '#F2C14E']];
 const gradeTag = g => g ? `<i class="gr g${g}">${GRADE[g][0]}</i>` : `<i class="gr g0">${Lx("Thường")}</i>`;
-const NLPACK = [[20000, 200], [50000, 520], [100000, 1100], [200000, 2300], [500000, 6000]];
+// giá skin chia theo bậc (1 ngân lượng ≈ 100đ): S 9k · SS 19k · SSS 29k
+const TIER_P = [0, 90, 190, 290];
+for(const id in CAT){ const C = CAT[id]; if(!C.def && C.p > 0) C.p = TIER_P[C.g] || TIER_P[1]; }
+const NLPACK = [[10000, 100], [20000, 200], [30000, 300], [50000, 520], [100000, 1100], [200000, 2300]];
 const Wallet = { nl:0, own:{}, admin:false, live:false, cat:0 };
 const ADMIN_ACC = ['cutuva'];
 const ownsSk = id => { const C = CAT[id]; return !!C && (!!Wallet.admin || !!C.def || !C.p || !!Wallet.own[id] || !!(P.ownC && P.ownC[id])); };
@@ -4293,7 +4296,7 @@ const Net = {
     D.onValue(D.ref(this.db, 'tt_wallet/' + uid + '/nl'), s => { const v = s.val() || 0, old = Wallet.nl; Wallet.nl = v; if(Wallet.live && v > old) nlGained(v - old); Wallet.live = true; }, () => {});
     D.onValue(D.ref(this.db, 'tt_own/' + uid), s => { Wallet.own = s.val() || {}; P.ownC = Object.assign({}, Wallet.own); }, () => {});
     Wallet.admin = ADMIN_ACC.includes((this.acc || '').toLowerCase()); D.get(D.ref(this.db, 'tt_admin/' + uid)).then(s => { if(s.exists()) Wallet.admin = true; }).catch(() => {});
-    D.onValue(D.ref(this.db, 'tt_cat'), s => { const v = s.val() || {}; for(const id in v) if(CAT[id] && !CAT[id].def && typeof v[id].p === 'number') CAT[id].p = v[id].p; Wallet.cat = Object.keys(v).length; }, () => {});
+    D.onValue(D.ref(this.db, 'tt_cat'), s => { const v = s.val() || {}; for(const id in v) if(CAT[id] && !CAT[id].def && typeof v[id].p === 'number') CAT[id].p = Math.min(v[id].p, TIER_P[CAT[id].g] || TIER_P[1]); Wallet.cat = Object.keys(v).length; }, () => {});
   },
   async buyCos(id, price){
     const D = this.D, uid = this.uid, cur = (await D.get(D.ref(this.db, 'tt_wallet/' + uid + '/nl'))).val() || 0;

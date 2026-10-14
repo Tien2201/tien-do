@@ -8,7 +8,7 @@
 //   HOOK_KEY       Chuỗi bí mật tự đặt, dán y hệt vào SePay (API Key) hoặc Casso (secure token)
 //   BANK_ACC       1053619661   (chỉ nhận tiền vào đúng tài khoản này)
 
-const PACKS = { 20000: 200, 50000: 520, 100000: 1100, 200000: 2300, 500000: 6000 };
+const PACKS = { 10000: 100, 20000: 200, 30000: 300, 50000: 520, 100000: 1100, 200000: 2300, 500000: 6000 };
 const nlFor = vnd => PACKS[vnd] || Math.floor(vnd / 100);
 
 export default {

@@ -5,7 +5,7 @@
 //   KEY       = một chuỗi bí mật tự đặt, ví dụ tt-8f3k2p9x (dùng trong link webhook ?key=...)
 // Link webhook điền vào Casso:  https://<ten-worker>.<ten-ban>.workers.dev/casso?key=<KEY>
 
-const PACKS = { 20000: 200, 50000: 520, 100000: 1100, 200000: 2300, 500000: 6000 };
+const PACKS = { 10000: 100, 20000: 200, 30000: 300, 50000: 520, 100000: 1100, 200000: 2300, 500000: 6000 };
 const toNL = amount => PACKS[amount] || Math.floor(amount / 100);
 
 export default {
