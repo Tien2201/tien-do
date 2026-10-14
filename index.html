@@ -3465,9 +3465,9 @@ const gradeTag = g => g ? `<i class="gr g${g}">${GRADE[g][0]}</i>` : `<i class="
 const NLPACK = [[20000, 200], [50000, 520], [100000, 1100], [200000, 2300], [500000, 6000]];
 const Wallet = { nl:0, own:{}, admin:false, live:false, cat:0 };
 const ADMIN_ACC = ['cutuva'];
-const ownsSk = id => { const C = CAT[id]; return !!C && (!!C.def || !C.p || !!Wallet.own[id] || !!(P.ownC && P.ownC[id])); };
+const ownsSk = id => { const C = CAT[id]; return !!C && (!!Wallet.admin || !!C.def || !C.p || !!Wallet.own[id] || !!(P.ownC && P.ownC[id])); };
 const owns = ownsSk;
-const tyOwn = tid => { const T = TYP[tid], o = (P && P.typ) || {}; return !!T && (!!T.def || !!o[tid] || (!!T.it && !!o[T.it])); };
+const tyOwn = tid => { const T = TYP[tid], o = (P && P.typ) || {}; return !!T && (!!Wallet.admin || !!T.def || !!o[tid] || (!!T.it && !!o[T.it])); };
 const tyName = tid => { const T = TYP[tid]; if(!T) return ''; if(T.n) return T.n; if(T.k === 'weapon') return itName({ k:T.it, wc:myFam() }); return ITEMS[T.it].n; };
 const tyDesc = tid => { const T = TYP[tid]; return T.d || (T.k === 'weapon' ? itDesc({ k:T.it, wc:myFam() }) : ITEMS[T.it].d); };
 const tyDef = tid => { const T = TYP[tid]; if(!T || T.none) return ''; if(T.k === 'outfit') return 'sk_def'; if(T.k === 'weapon') return 'wsk_def'; return Object.keys(CAT).find(id => CAT[id].ty === tid && CAT[id].def) || ''; };
