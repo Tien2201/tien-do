@@ -1805,12 +1805,17 @@ joyEl.addEventListener('pointerup', joyEnd); joyEl.addEventListener('pointercanc
 gc.addEventListener('pointerdown', e => {
   if(!running) return;
   const wx = e.clientX / scale + cam.x, wy = e.clientY / scale + cam.y;
-  const mob = mobs.filter(m => !m.dead).find(m => Math.abs(m.x - wx) < m.D.w * (m.D.boss ? 1 : .7) && wy < m.y + 4 && wy > m.y - m.D.h * (m.D.boss ? 2 : 1) - 4);
+  const mob = mobs.filter(m => !m.dead).map(m => [m, Math.hypot(m.x - wx, m.y - m.D.h * .5 - wy)]).filter(([m, d]) => Math.abs(m.x - wx) < m.D.w * (m.D.boss ? 1 : .7) + 10 && wy < m.y + 10 && wy > m.y - m.D.h * (m.D.boss ? 2 : 1) - 10).sort((a, b) => a[1] - b[1]).map(a => a[0])[0];
   if(mob){ me.target = mob; me.tx = null; if(me.sit) toggleMed(); return; }
   const npc = M.npcs.find(n => Math.abs(n.x - wx) < 10 && wy < n.y + 4 && wy > n.y - 28);
   if(npc){ if(Math.hypot(npc.x - me.x, npc.y + 10 - me.y) < 46) npcTalk(npc); else toast(Lx("Lại gần để nói chuyện")); return; }
   const op = Object.values(others).find(o => Math.abs(o.x - wx) < 9 && wy < o.y + 3 && wy > o.y - 28);
   if(op){ otherSheet(op); return; }
+  // chạm vào chỗ trống: đi tới đó (trước đây chạm hụt quái thì nhân vật đứng yên)
+  if(me.dead || DLG) return; let tx = wx, ty = wy;
+  if(!canStand(M, tx, ty)){ let ok = false; for(let r = 6; r <= 30 && !ok; r += 6) for(let a = 0; a < 6.28 && !ok; a += .785){ if(canStand(M, wx + Math.cos(a) * r, wy + Math.sin(a) * r)){ tx = wx + Math.cos(a) * r; ty = wy + Math.sin(a) * r; ok = true; } } if(!ok) return; }
+  me.target = null; me.talk = null; me.tx = tx; me.ty = ty; me.stuck = 0; if(me.sit) toggleMed(); if(P.auto){ P.auto = false; updAutoBtn(); }
+  fx.push({ k:'ring', x:tx, y:ty, t:0, d:.4, c:'#F2C14E' });
 });
 
 /* ======================= CHIẾN ĐẤU ======================= */
@@ -1951,7 +1956,7 @@ function basicDone(){
   if(skv('atkA') && me.bc % 4 === 0 && t && !t.dead){ hitMob(t, 1.5, '#F2C14E'); fx.push({ k:'ring', x:t.x, y:t.y, t:0, d:.35, c:'#F2C14E' }); }
   if(skv('atkB')) me.mp = Math.min(S.mp, me.mp + S.mp * .02);
 }
-function attackPress(){ const nn = nearNpc(); if(nn && !DLG){ npcTalk(nn); return; } if(nearWp() && !DLG){ wpSheet(); return; } if(me.sit) toggleMed(); if(!me.target || me.target.dead) me.target = nearestMob(170); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } }
+function attackPress(){ const nn = nearNpc(); if(nn && !DLG){ npcTalk(nn); return; } if(nearWp() && !DLG){ wpSheet(); return; } if(me.sit) toggleMed(); if(!me.target || me.target.dead || Math.hypot(me.target.x - me.x, me.target.y - me.y) > 260) me.target = nearestMob(240); if(!me.target){ toast(Lx("Không có yêu ma ở gần")); return; } me.tx = null; }
 function dmgRoll(atk, def, mul = 1){ const S = stats(); let d = Math.max(1, atk * mul * rnd(.9, 1.1) - def * .5); let crit = Math.random() < S.crit; if(crit) d *= S.critd; return [Math.round(d), crit]; }
 // vòng phong ấn quanh boss chưa tới lượt
 function drawSeal(ctx, m, cx, cy){
@@ -2090,7 +2095,7 @@ function update(dt){
   if(me.target && !me.target.dead && Math.hypot(mx, my) <= .15){
     const d = Math.hypot(me.target.x - me.x, me.target.y - me.y);
     const rng = cls().rng || 80;
-    if(d > rng){ if(P.auto){ mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; } }
+    if(d > rng){ if(!P.auto && d > 340) me.target = null; else { mx = (me.target.x - me.x) / d; my = (me.target.y - me.y) / d; } }
     else if(cds.atk <= tNow){ me.dir = me.target.x >= me.x ? 1 : -1;
       if(P.cls === 'the'){ cds.atk = tNow + .5; const t = me.target; hitMob(t, 1.15, '#FFB04A'); fx.push({ k:'ring', x:t.x, y:t.y + 4, t:0, d:.35, c:'#FFB04A' }); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - t.x, o.y - t.y) < 24) hitMob(o, .55, '#FFB04A'); }); me.lunge = .12; shake(1); sfx.hit(); }
       else if(P.cls === 'dao'){ cds.atk = tNow + .55; const t = me.target; hitMob(t, 1.2, '#F0F4FF'); mobs.forEach(o => { if(o !== t && !o.dead && Math.hypot(o.x - me.x, o.y - me.y) < 34 && (Math.sign(o.x - me.x) === me.dir || Math.abs(o.x - me.x) < 8)) hitMob(o, .8, '#F0F4FF'); }); fx.push({ k:'slash', x:me.x + me.dir * 10, y:me.y - 10, a:me.dir > 0 ? -1.3 : 1.85, t:0, d:.25, c:'#F0F4FF', r:24 }); shake(.8); sfx.hit(); }
@@ -2108,8 +2113,14 @@ function update(dt){
   if(L > .15 && !me.dead && !me.sit){
     if(L > 1){ mx /= L; my /= L; }
     const sp = 72 * dt * (1 + S.spd / 100) * (look().mt ? 1.15 : 1), nx = me.x + mx * sp, ny = me.y + my * sp;
-    if(canStand(M, nx, me.y)) me.x = nx; else if(me.tx !== null) me.tx = null;
-    if(canStand(M, me.x, ny)) me.y = ny;
+    // vướng vật cản thì trượt theo trục còn đi được, kẹt hẳn thì thử lách sang ngang rồi mới dừng
+    const bx = !canStand(M, nx, me.y); if(!bx) me.x = nx;
+    const by = !canStand(M, me.x, ny); if(!by) me.y = ny;
+    if(bx && by || (bx && Math.abs(my) < .2) || (by && Math.abs(mx) < .2)){
+      me.stuck = (me.stuck || 0) + dt; const sd = (me.sideD = me.sideD || 1);
+      const px = me.x - my * sp * sd, py = me.y + mx * sp * sd; if(canStand(M, px, py)){ me.x = px; me.y = py; } else me.sideD = -sd;
+      if(me.stuck > 1.2){ me.stuck = 0; me.tx = null; if(me.target && !P.auto) me.target = null; }
+    } else me.stuck = 0;
     me.x = clamp(me.x, 6, M.W * TS - 6); me.y = clamp(me.y, 8, M.H * TS - 2);
     if(Math.abs(mx) > .1) me.dir = mx > 0 ? 1 : -1; me.moving = true; me.anim = (me.anim || 0) + dt * 8;
     if(me.talk && Math.hypot(me.talk.x - me.x, me.talk.y + 10 - me.y) < 14){ npcTalk(me.talk); me.talk = null; me.tx = null; }
@@ -4638,7 +4649,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { die, closeSheet, dodge, inWarn, get warns(){ return warns; }, hitMob, mapLock, sealedM, bcLock, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { die, canStand:(x, y) => canStand(M, x, y), closeSheet, dodge, inWarn, get warns(){ return warns; }, hitMob, mapLock, sealedM, bcLock, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
