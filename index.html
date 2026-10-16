@@ -608,7 +608,9 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .bcc.on{border-color:#C99BFF;background:rgba(176,74,255,.16);box-shadow:0 0 0 1px #C99BFF inset}.bcc.lk{opacity:.5}
 .bcd{padding:10px;border:1px solid rgba(201,155,255,.35);border-radius:6px;background:rgba(20,10,30,.45)}.bcd p{margin:6px 0;font-size:12.5px;color:#E9E4D8}
 .bch b{display:block;font-family:var(--serif);font-size:19px;color:#EBD6A6}.bch small{font-size:11px;color:var(--paper2)}
-.bcdf{display:flex;gap:6px;margin:8px 0 2px}.bcdf button{flex:1;padding:7px 4px;color:var(--dc);font-weight:800;font-size:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:4px;cursor:pointer}
+.twc{display:flex;align-items:center;gap:10px;margin:6px 0 10px;padding:10px;border:1px solid #F2C14E;border-radius:6px;background:linear-gradient(90deg,rgba(242,193,78,.16),rgba(242,193,78,.03))}.twc>i{font-size:30px;font-style:normal}.twc .g{flex:1;min-width:0}.twc b{display:block;color:#FFE7A0}.twc small{display:block;font-size:11.5px;color:var(--paper2)}.twb{display:flex;flex-direction:column;gap:4px}.twb .btn{margin:0;padding:8px 12px;white-space:nowrap}
+.twl{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}.twl button{padding:8px 4px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);border-radius:4px;color:var(--paper);cursor:pointer}.twl button b{display:block;font-size:18px}.twl button small{font-size:10.5px;color:var(--paper2)}.twl button.nx{border-color:#F2C14E;color:#FFE7A0}
+.bcdf{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}.bcdf button{min-width:30%}.bcdf button{flex:1;padding:7px 4px;color:var(--dc);font-weight:800;font-size:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:4px;cursor:pointer}
 .bcdf button small{display:block;font-size:9.5px;font-weight:600;color:var(--paper2)}.bcdf button.on{border-color:var(--dc);background:color-mix(in srgb,var(--dc) 18%,transparent)}.bcdf button:disabled{opacity:.45}
 
 .lbg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0}
@@ -632,6 +634,23 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .aptab button.on{color:#2A1A00;background:linear-gradient(180deg,#F5DFA0,#D9B04A);border-color:#F2C14E}
 .apch{display:flex;flex-wrap:wrap;gap:5px}.apch button{padding:6px 10px;font-size:12.5px;color:var(--paper);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;cursor:pointer}
 .apch button.on{border-color:#F2C14E;background:rgba(242,193,78,.18);color:#FFF3C0;box-shadow:0 0 0 1px #F2C14E inset}
+
+/* túi đồ kiểu Minecraft Dungeons: 3 cột (nhân vật · lưới đồ · chi tiết) */
+.fs.inv{grid-template-columns:minmax(190px,24%) 1fr minmax(240px,29%)}
+.ivd{position:relative;min-height:0;overflow:auto;margin:4px max(14px,env(safe-area-inset-right)) 6px 0;padding:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--rc,#6A5A80) 14%,#17151F),#0F0E15);border:1px solid color-mix(in srgb,var(--rc,#6A5A80) 55%,transparent);border-radius:4px;box-shadow:inset 0 0 24px rgba(0,0,0,.5)}
+.ivd .x{position:absolute!important;right:6px;top:6px}
+.ivd.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--paper2);font-size:12.5px;gap:6px}
+.ivd .ivem{font-size:40px;opacity:.7}.ivd.empty b{color:var(--paper);font-size:14px}
+.ivhd{display:flex;gap:10px;align-items:center;margin-bottom:8px;padding-right:46px}.ivhd b{display:block;font-size:15px}.ivhd small{color:var(--paper2);font-size:11.5px}
+.ic.big{width:64px!important;height:64px!important;flex:none}
+.ivpw{margin:2px 0 8px;padding:7px 10px;border-radius:3px;font-size:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);text-align:center}
+.ivpw b{font-size:16px}.ivpw.up{background:rgba(94,211,122,.14);border-color:#5ED37A;color:#9FF0B4}.ivpw.dn{background:rgba(224,69,58,.12);border-color:#E0453A;color:#FFB0A8}.ivpw.on{color:#F2C14E;border-color:#F2C14E}.ivpw.no{color:#FF8A7A}
+.ivtip{position:static!important;width:auto!important;border:none!important;box-shadow:none!important;padding:0!important;background:none!important;animation:none!important}.ivtip>h4,.ivtip>.sub2:first-of-type{display:none}
+.ivact{display:flex;flex-direction:column;gap:6px;margin-top:10px}.ivact .btn{margin:0;width:100%;padding:10px 8px;font-size:14px}.ivact .btn.sm{padding:7px;font-size:12.5px}
+.ivact .btn.salv{background:linear-gradient(180deg,#7A4AC0,#4A2A80);color:#F4E8FF;border-color:#B07CFF}.ivact .btn.salv span{opacity:.9;margin-left:4px}
+.ic .dv,.dv{font-size:11px;font-weight:900;line-height:1}.ic .dv{position:absolute;left:3px;top:2px;text-shadow:0 1px 2px #000}.dv.up{color:#5EE38A}.dv.dn{color:#FF5A4A}
+.rleg{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;margin-top:6px;font-size:11px}.rleg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle}
+@media (orientation:portrait){.fs.inv{grid-template-columns:1fr}.fs.inv .ivd{position:absolute;left:10px;right:10px;bottom:58px;max-height:62%;margin:0;z-index:6;box-shadow:0 -10px 30px rgba(0,0,0,.6)}.fs.inv .ivd.empty{display:none}}
 /* ===== NHIỆM VỤ DỄ ĐỌC ===== */
 #track{padding:7px 12px 8px 10px!important;background:linear-gradient(90deg,rgba(8,8,12,.62),rgba(8,8,12,.38) 70%,rgba(8,8,12,0))!important;border-left:2px solid rgba(217,185,122,.7);max-width:250px!important}
 #track .qk{font-size:14px!important}#track .qk b{font-weight:700!important;color:#FFF6E0!important}
@@ -693,7 +712,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
   var OK = { vi:1, en:1, zh:1, ja:1, ko:1, th:1, id:1, es:1, pt:1 };
   if(!l || !OK[l]){ var n = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase().slice(0, 2); l = n === 'ms' ? 'id' : (OK[n] ? n : 'en'); }
   window.__LANG = l; document.documentElement.lang = l;
-  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=27"><\/script>');
+  if(l !== 'vi') document.write('<script src="lang/' + l + '.js?v=28"><\/script>');
 })();
 </script>
 <script>
@@ -945,6 +964,10 @@ addEventListener('pointerdown', function ft(){ if(audioInit()){ if(AC.state === 
 document.addEventListener('visibilitychange', () => { if(!AC) return; document.hidden ? AC.suspend() : AC.resume(); });
 
 /* ======================= PIXEL ART (vẽ bằng code, tự viền) ======================= */
+// bán kính âm (hiệu ứng có thời gian trễ) làm canvas ném lỗi và đứng cả khung hình -> kẹp về 0
+{ const P2 = CanvasRenderingContext2D.prototype, el = P2.ellipse, ar = P2.arc;
+  P2.ellipse = function(x, y, a, b, ...r){ return el.call(this, x, y, a > 0 ? a : 0, b > 0 ? b : 0, ...r); };
+  P2.arc = function(x, y, rr, ...r){ return ar.call(this, x, y, rr > 0 ? rr : 0, ...r); }; }
 function cnv(w, h){ const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
 function hex(c){ const n = parseInt(c.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
 function shade(c, k){ const [r, g, b] = hex(c); const f = v => clamp(Math.round(k > 0 ? v + (255 - v) * k : v * (1 + k)), 0, 255); return '#' + [f(r), f(g), f(b)].map(v => v.toString(16).padStart(2, '0')).join(''); }
@@ -1786,7 +1809,7 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase(); keys[k] = true; const kc = KCODE[e.code]; if(kc) keys[kc] = true;
   if(!running || document.querySelector('.sbg')) return;
   if(kc === 'e' || k === 'e'){ const n = nearNpc(); if(n){ e.preventDefault(); npcTalk(n); } else if(nearWp()){ e.preventDefault(); wpSheet(); } }
-  if(k === 'j' || k === ' '){ e.preventDefault(); attackPress(); }
+  if(k === 'j' || k === ' '){ e.preventDefault(); if(!e.repeat) attackPress(); }
   if(k === 'shift' || k === 'k' || k === 'l'){ e.preventDefault(); dodge(); }
   if(k === '1') useSkill('van'); if(k === '2') useSkill('ho'); if(k === '3') useSkill('hoa');
   if(k === 'h') drinkHp(); if(k === 'r') toggleMed(); if(k === 't') toggleAuto(); if(kc === 'm' || k === 'm') toggleRide();
@@ -2049,7 +2072,7 @@ function dodge(){
   if(!me || me.dead || me.sit || !running || dodgeCd > tNow) return;
   let mx = (keys.d || keys.arrowright ? 1 : 0) - (keys.a || keys.arrowleft ? 1 : 0) + joy.x, my = (keys.s || keys.arrowdown ? 1 : 0) - (keys.w || keys.arrowup ? 1 : 0) + joy.y;
   let L = Math.hypot(mx, my); if(L < .15){ mx = me.dir || 1; my = 0; L = 1; }
-  me.dg = { vx:mx / L, vy:my / L, t:0, d:.24 }; me.ifr = tNow + .32; dodgeCd = tNow + 1.1; me.tx = null; if(P.ride) P.ride = false;
+  me.dg = { vx:mx / L, vy:my / L, t:0, d:.24 }; me.ifr = tNow + .32; dodgeCd = tNow + 1.1; me.tx = null;
   sfx.swish(); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.3, c:'#9FE8FF' }); const b = $('#bDodge'); if(b){ b.classList.add('cd'); setTimeout(() => b.classList.remove('cd'), 1100); }
 }
 function drinkHp(){ const bz = mobs.some(m => m.D.boss && !m.dead && !m.temp && m.st === 'chase' && Math.hypot(m.x - me.x, m.y - me.y) < 300); if(bz && (me.potT || 0) > tNow){ toast(Lx("Đang giao chiến boss: {0} giây nữa mới uống được đan", Math.ceil(me.potT - tNow))); return; } if(!P.inv.hp){ toast(Lx("Hết Hồi Huyết Đan, mua ở Đan Sư nha")); return; } const S = stats(); if(me.hp >= S.hp){ toast(Lx("Sinh lực đang đầy")); return; } P.inv.hp--; if(bz) me.potT = tNow + 8; me.hp = Math.min(S.hp, me.hp + S.hp * .4 * (P.cls === 'y' ? 1.6 : 1)); fx.push({ k:'ring', x:me.x, y:me.y, t:0, d:.5, c:'#FF6B5E' }); beep(700, .1, 'triangle'); }
@@ -2095,6 +2118,9 @@ function update(dt){
     if(me.target){ for(const k of ['ho', 'hoa', 'van']){ const sk = SKILLS[k]; if(P.stage >= sk.s && cds[k] <= tNow && me.mp >= sk.mp && (k !== 'ho' || me.hp < S.hp * .7)) { useSkill(k); break; } } }
   }
   const steer = Math.hypot(mx, my) > .15;
+  // vừa chạy vừa đánh: giữ nút đánh (hoặc J/Space), hoặc đang giao chiến, thì tự nhắm con gần nhất trong tầm
+  if(steer && !me.dead && !me.sit){ const rg0 = cls().rng || 80, hold = me.atkHold || keys.j || keys[' '], cur = me.target && !me.target.dead ? Math.hypot(me.target.x - me.x, me.target.y - me.y) : 1e9;
+    if((hold || me.target) && cur > rg0){ const n = nearestMob(rg0 + 6); if(n) me.target = n; else if(hold && cur > 340) me.target = null; } }
   if(me.target && !me.target.dead && (!steer || Math.hypot(me.target.x - me.x, me.target.y - me.y) <= (cls().rng || 80))){
     const d = Math.hypot(me.target.x - me.x, me.target.y - me.y);
     const rng = cls().rng || 80;
@@ -2945,12 +2971,20 @@ function bagSheet(filter){
   if(invF) list = list.filter(b => ITEMS[b.k].slot === invF);
   list.sort(invSort === 'tier' ? (a, b) => ITEMS[b.k].t - ITEMS[a.k].t || b.plus - a.plus : (a, b) => ITEMS[a.k].slot.localeCompare(ITEMS[b.k].slot) || ITEMS[b.k].t - ITEMS[a.k].t);
   const free = bagCap() - P.bag.length, nEmpty = invF ? 0 : Math.max(0, free);
-  const cell = b => { const I = ITEMS[b.k], c = rarC(I.t), no = P.stage < I.s || !famOk(b); return `<button class="ic${invSel === b.id ? ' sel' : ''}${no ? ' no' : ''}" data-ii="${b.id}" style="--rc:${c}">${iconHtml(ik(b), 40)}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}</button>`; };
+  const pw0 = power(), dOf = b => { const I = ITEMS[b.k]; if(P.stage < I.s || !famOk(b)) return 0; return powerWith(b) - pw0; };
+  const cell = b => { const I = ITEMS[b.k], c = rarC(I.t), no = P.stage < I.s || !famOk(b), dp = dOf(b); return `<button class="ic${invSel === b.id ? ' sel' : ''}${no ? ' no' : ''}" data-ii="${b.id}" style="--rc:${c}">${iconHtml(ik(b), 40)}${dp > 0 ? '<span class="dv up">▲</span>' : dp < 0 ? '<span class="dv dn">▼</span>' : ''}${b.plus ? `<span class="pl">+${b.plus}</span>` : ''}${b.lk ? '<span class="lk">🔒</span>' : ''}${(b.r || []).length ? `<span class="ax">${b.r.map(r => `<i class="${r[2] >= .9 ? 'pf' : ''}"></i>`).join('')}</span>` : ''}</button>`; };
   const slot = (sl, cls_) => { const it = itemOf(P.eq[sl]), I = it && ITEMS[it.k]; return `<button class="ic es ${cls_}${it && invSel === it.id ? ' sel' : ''}" data-es="${sl}" style="--rc:${I ? rarC(I.t) : 'rgba(233,228,216,.25)'}">${it ? iconHtml(ik(it), 40) + (it.plus ? `<span class="pl">+${it.plus}</span>` : '') : `<small>${SLOTN[sl]}</small>`}</button>`; };
   const sel = invSel != null ? itemOf(invSel) : null;
-  const panel = sel ? (() => { const I = ITEMS[sel.k], on = isEq(sel), no = P.stage < I.s || !famOk(sel); return `<div class="ipanel"><button class="x" id="ipX" aria-label="${Lx("Đóng")}">×</button><div class="htip" style="position:static;width:auto;border:none;box-shadow:none;padding:0;background:none;animation:none">${itemTip(sel)}</div>
-      <div class="brow">${on ? `<button class="btn alt" id="iUn">${Lx("Tháo ra")}</button>` : `<button class="btn gold" id="iEq" ${no ? 'disabled' : ''}>${!famOk(sel) ? Lx("Sai môn phái") : no ? Lx("Chưa đủ cảnh giới") : Lx("Trang bị")}</button>`}<button class="btn alt" id="iLk">${sel.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button></div>
-      ${on || sel.lk ? '' : `<div class="brow"><button class="btn red" id="iSell">${Lx("Bán {0}", fmt(sellPrice(sel)))}</button><button class="btn" id="iSalv" style="background:#6A3AB0">${Lx("Phân giải +{0}", salvageVal(sel))}</button></div>`}</div>`; })() : '';
+  const legend = `<div class="rleg">${RAR.slice(1).map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join('')}</div>`;
+  const panel = sel ? (() => { const I = ITEMS[sel.k], on = isEq(sel), no = P.stage < I.s || !famOk(sel), dp = on || no ? 0 : powerWith(sel) - pw0, c = rarC(I.t);
+      return `<div class="ivd" style="--rc:${c}"><button class="x" id="ipX" aria-label="${Lx("Đóng")}">×</button>
+      <div class="ivhd"><div class="ic big" style="--rc:${c}">${iconHtml(ik(sel), 56)}${sel.plus ? `<span class="pl">+${sel.plus}</span>` : ''}</div><div><b style="color:${c}">${itName(sel)}${sel.plus ? ' +' + sel.plus : ''}</b><small>${RAR[I.t][0]} · ${SLOTN[I.slot]}</small></div></div>
+      <div class="ivpw ${on ? 'on' : no ? 'no' : dp > 0 ? 'up' : dp < 0 ? 'dn' : ''}">${on ? Lx("Đang mặc") : no ? (!famOk(sel) ? Lx("Sai môn phái") : Lx("Cần {0}", realmName(I.s))) : `${Lx("Chiến lực")} <b>${dp > 0 ? '+' : ''}${fmt(dp)} ${dp > 0 ? '▲' : dp < 0 ? '▼' : '='}</b>`}</div>
+      <div class="htip ivtip">${itemTip(sel)}</div>
+      <div class="ivact">${on ? `<button class="btn alt" id="iUn">${Lx("Tháo ra")}</button>` : `<button class="btn gold" id="iEq" ${no ? 'disabled' : ''}>${!famOk(sel) ? Lx("Sai môn phái") : no ? Lx("Chưa đủ cảnh giới") : '⚔ ' + Lx("Trang bị")}</button>`}
+      ${on || sel.lk ? '' : `<button class="btn salv" id="iSalv">♻ ${Lx("Phân giải")} <span>+${salvageVal(sel)} ${iconHtml('tt', 14)}</span></button><button class="btn red sm" id="iSell">🪙 ${Lx("Bán {0}", fmt(sellPrice(sel)))}</button>`}
+      <button class="btn alt sm" id="iLk">${sel.lk ? Lx("🔓 Mở khoá") : Lx("🔒 Khoá")}</button></div></div>`; })()
+    : `<div class="ivd empty"><div class="ivem">🎒</div><b>${Lx("Chọn một món đồ để xem")}</b><p><span class="dv up">▲</span> ${Lx("mạnh hơn đồ đang mặc")}<br><span class="dv dn">▼</span> ${Lx("yếu hơn đồ đang mặc")}</p><p>${Lx("Chạm 2 lần để mặc nhanh. Đồ thừa thì phân giải lấy Linh Tinh để cường hoá.")}</p>${legend}</div>`;
   sheetFs(`<div class="fsh"><div class="fst"><span class="on">${Lx("Túi đồ")}</span><span class="ivst">🪙 ${fmt(P.st)} · ${iconHtml('tt', 14)} ${fmt(P.inv.tt || 0)} · ${P.bag.length}/${bagCap()} ${Lx("ô")}</span></div><button class="x" data-close aria-label="${Lx("Đóng")}">×</button></div>
     <div class="fsl ivdoll"><div class="doll2">${slot('h', 'sh')}${slot('wi', 'swi')}<img src="${heroPreview()}" alt="">${slot('w', 'sw')}${slot('a', 'sa')}</div>
       <div class="fspow" style="font-size:30px;text-align:center"><small>${Lx("CHIẾN LỰC")}</small>${fmt(power())}</div>
@@ -2958,8 +2992,8 @@ function bagSheet(filter){
     <div class="ivw"><div class="ivbar"><div class="chips">${[['', Lx("Tất cả")], ['w', SLOTN.w], ['a', SLOTN.a], ['h', SLOTN.h], ['wi', SLOTN.wi]].map(([k, n]) => `<button data-f="${k}" class="${invF === k ? 'on' : ''}">${n}</button>`).join('')}</div>
         <div class="tools"><button id="iSort" title="${Lx("Sắp xếp")}">⇅ ${invSort === 'tier' ? Lx("Phẩm") : Lx("Loại")}</button><button id="bulk">🧹 ${Lx("Dọn")}</button>${bagCap() < 120 ? `<button id="exp">＋10 ${Lx("ô")}</button>` : ''}</div></div>
       <div class="igrid">${list.map(cell).join('')}${'<div class="ic em"></div>'.repeat(nEmpty)}</div>
-      <div class="belt"><span>${Lx("Đan dược")}</span>${Object.entries(PILLS).map(([k, p]) => `<button class="ic pill" data-pill="${k}" style="--rc:${p.c}">${iconHtml(k, 30)}<span class="q">${P.inv[k] || 0}</span></button>`).join('')}</div>
-      ${panel}</div>
+      <div class="belt"><span>${Lx("Đan dược")}</span>${Object.entries(PILLS).map(([k, p]) => `<button class="ic pill" data-pill="${k}" style="--rc:${p.c}">${iconHtml(k, 30)}<span class="q">${P.inv[k] || 0}</span></button>`).join('')}</div></div>
+    ${panel}
     <div class="fsb"><button class="fbtn" data-close>‹ ${Lx("Quay lại")}</button><span class="fsT">${Lx("Chạm để xem · giữ để xem nhanh · chạm 2 lần để mặc")}</span></div>`);
   document.querySelector('.fs').classList.add('inv');
   const pick = id => { window._noTip = Date.now(); invSel = invSel === id ? null : id; sfx.tap(); bagSheet(null); };
@@ -3797,7 +3831,7 @@ const BC = [
   { id:'bc4', ic:'❄️', n:Lx("Băng Cung Vĩnh Đông"), d:Lx("Cung điện băng của Long Hậu, gió lạnh cắt da cắt thịt."), th:'snow', L:36, need:27, mobs:['tuyetlang', 'bangtinh', 'tuyethung'], mini:'langvuong', boss:'banglong' },
   { id:'bc5', ic:'☠️', n:Lx("U Minh Đầm Lầy"), d:Lx("Tầng sâu nhất của đầm lầy, cửa ngõ chín tầng U Minh."), th:'swamp', L:40, need:31, mobs:['docthiem', 'thuyquy', 'thima'], mini:'quytuong', boss:'doclong' },
 ];
-const BCD = [{ n:Lx("Thường"), hp:1, atk:1, rw:1, c:'#7FE0A8' }, { n:Lx("Khó"), hp:1.7, atk:1.35, rw:1.8, c:'#F2C14E' }, { n:Lx("Ác Mộng"), hp:2.8, atk:1.8, rw:3, c:'#FF5A4A' }];
+const BCD = [{ n:Lx("Thường"), hp:1, atk:1, rw:1, c:'#7FE0A8' }, { n:Lx("Khó"), hp:1.7, atk:1.35, rw:1.8, c:'#F2C14E' }, { n:Lx("Ác Mộng"), hp:2.8, atk:1.8, rw:3, c:'#FF5A4A' }, { n:Lx("Địa Ngục"), hp:4.2, atk:2.4, rw:4.5, c:'#C04AFF' }, { n:Lx("Thiên Kiếp"), hp:6, atk:3.1, rw:6.5, c:'#7FE8FF' }];
 let DG = null, bcSel = 0, bcDf = 0;
 function talkBc(){
   const lines = [P.stage < 3 ? Lx("Ngươi còn non lắm. Đạt Lv 4 rồi quay lại tìm ta.") : pickR([Lx("Mỗi Bí Cảnh là một chuỗi phòng. Vào phòng thì cửa khoá lại, diệt sạch yêu ma mới mở."), Lx("Ngươi có ba mạng. Gục ngã ba lần thì Bí Cảnh đẩy ngươi ra ngoài."), Lx("Cuối mỗi Bí Cảnh là một Boss lớn, giữa đường còn có Tiểu Boss canh giữ.")])];
@@ -3811,12 +3845,35 @@ const inviteLink = () => location.origin + location.pathname + '?p=' + Party.cod
 function lobbyPush(extra){ if(!Party.code || !Net.ok) return; const L = lobbyOf(), v = Object.assign({ lobby:1, bc:bcSel, df:bcDf, by:Net.uid, n:P.name, t:Date.now(), rd:(L && L.rd) || {} }, extra || {}); Party.dg = v; Net.D.set(Net.partyRef('dg'), v).catch(e => console.warn(e)); }
 const BC_MAP = { lava:'madien', desert:'samac', snow:'bangnguyen', swamp:'damlay' };
 function bcLock(B){ if(P.stage < B.need) return Lx("Cần đạt Lv {0}", B.need + 1); const id = BC_MAP[B.th], qi = id ? storyQ().map[id] : -1; if(qi > 0 && !qDone(qi) && !(P.mapOk && P.mapOk[id])) return Lx("Chưa tới cốt truyện"); return null; }
+
+/* ======================= THÁP THÔNG THIÊN: leo tầng vô tận ======================= */
+// mỗi 5 tầng đổi vùng (rừng → dung nham → sa mạc → băng → đầm lầy rồi lặp lại, quái mạnh dần); tầng chia hết cho 5 có Boss lớn
+function towerB(f){
+  const t = Math.floor((f - 1) / 5) % BC.length, base = BC[t], big = f % 5 === 0;
+  return { id:'tw', tower:f, ic:'🗼', n:Lx("Tháp Thông Thiên · Tầng {0}", f), d:base.d, th:base.th, L:Math.round(5 + f * 1.6), need:2, mobs:base.mobs, mini:base.mini, boss:big ? base.boss : base.mini,
+    kinds:big ? ['start', 'fight', 'fight', 'mini', 'boss'] : f % 2 ? ['start', 'fight', 'boss'] : ['start', 'fight', 'fight', 'boss'] };
+}
+function towerGo(f){
+  if(P.stage < 2) return toast(Lx("Cần đạt Lv {0} mới vào được {1}", 3, Lx("Tháp Thông Thiên")));
+  if(DG){ exitDungeon(); setTimeout(() => towerGo(f), 900); return; }
+  closeSheet(); startDungeon(towerB(f), 0);
+}
+function towerCard(){
+  const best = P.tower || 0, nx = best + 1, L = towerB(nx).L, me1 = P.stage + 1, col = me1 >= L ? '#7FE0A8' : me1 >= L - 4 ? '#F2C14E' : '#FF6B5E';
+  return `<div class="twc"><i>🗼</i><div class="g"><b>${Lx("Tháp Thông Thiên")}</b><small>${Lx("Leo tầng vô tận, cứ 5 tầng một Boss lớn. Chỉ đi một mình.")}</small><small>${Lx("Tầng cao nhất: {0}", best)} · <span style="color:${col}">${Lx("Tầng {0}: quái Lv {1}", nx, L)}</span></small></div>
+    <div class="twb"><button class="btn gold" id="twGo">${Lx("Leo tầng {0}", nx)}</button>${best >= 5 ? `<button class="btn alt" id="twPick">${Lx("Chọn tầng")}</button>` : ''}</div></div>`;
+}
+function towerPick(){
+  const best = P.tower || 0, opts = []; for(let f = 1; f <= best + 1; f += f < 5 ? 4 : 5) opts.push(f); if(!opts.includes(best + 1)) opts.push(best + 1);
+  sheet(`<button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🗼 ${Lx("Chọn tầng")}</h2><p class="sub">${Lx("Leo lại tầng thấp để luyện, hoặc thử thách tầng mới.")}</p><div class="twl">${opts.map(f => `<button data-tw="${f}" class="${f === best + 1 ? 'nx' : ''}"><b>${f}</b><small>Lv ${towerB(f).L}</small></button>`).join('')}</div>`);
+  document.querySelectorAll('[data-tw]').forEach(b => b.onclick = () => towerGo(+b.dataset.tw));
+}
 function bcSheet(){
   const inP = !!(Party.code && Net.ok), lob = lobbyOf(), lead = !lob || lob.by === Net.uid, run = runOf();
   if(lob && !lead){ bcSel = lob.bc; bcDf = lob.df; }
-  const B = BC[bcSel], ok = !bcLock(B), best = lead ? bcBest(B.id) : 2; if(lead && bcDf > best) bcDf = Math.min(best, 2);
+  const B = BC[bcSel], ok = !bcLock(B), best = lead ? bcBest(B.id) : BCD.length - 1; if(lead && bcDf > best) bcDf = Math.min(best, BCD.length - 1);
   if(inP && lead && !run && (!lob || lob.bc !== bcSel || lob.df !== bcDf)) lobbyPush();
-  const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n), rd = (lobbyOf() || {}).rd || {};
+  const stars = n => '★'.repeat(Math.min(n, BCD.length)) + '☆'.repeat(Math.max(0, BCD.length - n)), rd = (lobbyOf() || {}).rd || {};
   const mem = inP ? Object.entries(Party.mem || {}).filter(([id, m]) => id === Net.uid || Date.now() - (m.ct || 0) < 20000) : [[Net.uid || 'me', { n:P.name, s:P.stage, cl:P.cls }]];
   const slot = i => { const e = mem[i]; if(!e) return `<button class="lbs empty" data-inv="1"><i>＋</i><b>${Lx("Mời bạn")}</b><small>${Lx("Trống")}</small></button>`;
     const [id, m] = e, isL = (lobbyOf() ? lobbyOf().by : Net.uid) === id, low = (m.s || 0) < B.need;
@@ -3827,6 +3884,7 @@ function bcSheet(){
   else act = `<button class="btn ${rd[Net.uid] ? 'alt' : 'gold'}" id="bcRd">${rd[Net.uid] ? Lx("Huỷ sẵn sàng") : '✓ ' + Lx("Sẵn sàng")}</button><p class="sub" style="font-size:11.5px;text-align:center">${Lx("Chờ đội trưởng bấm bắt đầu, bạn sẽ tự vào cùng.")}</p>`;
   sheet(`<div class="bclobby"><button class="x" data-close aria-label="${Lx("Đóng")}">×</button><h2>🗝 ${Lx("Sảnh Bí Cảnh")}</h2>
     ${run && !DG ? `<div class="bcj"><span>👥 ${Lx("{0} đang ở {1} ({2})", esc(run.n), BC[run.bc].n, BCD[run.df].n)}</span><button class="btn gold" id="bcJoin">${Lx("Vào cùng")}</button></div>` : ''}
+    ${towerCard()}
     <div class="lbg">${[0, 1, 2, 3].map(slot).join('')}</div>
     ${inP ? `<div class="lbinv"><span>${Lx("Mã tổ đội")} <b>${Party.code}</b></span><button class="s" id="bcCp">${Lx("Chép mã")}</button><button class="s" id="bcLk">🔗 ${Lx("Gửi link mời")}</button>${mem.length < 4 ? `<button class="s" id="bcQk">🎲 ${Lx("Ghép người lạ")}</button>` : ''}</div>` : ''}
     <div class="bcl">${BC.map((b, i) => `<button class="bcc${i === bcSel ? ' on' : ''}${bcLock(b) ? ' lk' : ''}" data-bc="${i}" ${lead ? '' : 'disabled'}><i>${b.ic}</i><b>${b.n}</b><small>Lv ${b.need + 1}+ · <span class="st">${stars(bcBest(b.id))}</span></small></button>`).join('')}</div>
@@ -3836,6 +3894,7 @@ function bcSheet(){
       ${act}</div></div>`);
   window._lobK = lobbyKey();
   document.querySelectorAll('[data-bc]').forEach(b => b.onclick = () => { if(!lead) return; bcSel = +b.dataset.bc; sfx.tap(); bcSheet(); });
+  const tg = $('#twGo'); if(tg) tg.onclick = () => towerGo((P.tower || 0) + 1); const tp = $('#twPick'); if(tp) tp.onclick = towerPick;
   document.querySelectorAll('[data-df]').forEach(b => b.onclick = () => { if(!lead) return; bcDf = +b.dataset.df; sfx.tap(); bcSheet(); });
   const g = $('#bcGo'); if(g) g.onclick = () => { closeSheet(); startDungeon(B, bcDf); };
   const j = $('#bcJoin'); if(j) j.onclick = () => joinDungeon(runOf());
@@ -3851,7 +3910,7 @@ function bcSheet(){
 }
 function lobbyRefresh(){ if(document.querySelector('.bclobby') && window._lobK !== lobbyKey()) bcSheet(); }
 function genDungeon(B, df, seed){
-  const r = mulberry(seed), kinds = ['start', 'fight', 'fight', 'chest', 'mini', 'fight', 'fight', 'boss'], H = 44, rooms = [];
+  const r = mulberry(seed), kinds = B.kinds || ['start', 'fight', 'fight', 'chest', 'mini', 'fight', 'fight', 'boss'], H = 44, rooms = [];
   let x = 3;
   kinds.forEach(k => { const w = k === 'boss' ? 22 : k === 'start' || k === 'chest' ? 10 : 15 + Math.floor(r() * 3), h = k === 'boss' ? 17 : k === 'start' || k === 'chest' ? 9 : 11 + Math.floor(r() * 3);
     const y0 = clamp(Math.floor((H - h) / 2 + (r() - .5) * 16), 3, H - h - 3); rooms.push({ k, x, y:y0, w, h, cy:y0 + Math.floor(h / 2), st:k === 'start' || k === 'chest' ? 'done' : 'idle', doors:[] }); x += w + 7 + Math.floor(r() * 3); });
@@ -3884,7 +3943,7 @@ function startDungeon(B, df, seed, join){
   if(DG) return; if(!me || me.dead) return;
   const ret = M && !M.dg ? { map:M.id, x:me.x, y:me.y } : { map:'thon', x:25 * TS, y:21 * TS };
   seed = seed || (Date.now() % 1e8) + 11;
-  const coop = !!(Party.code && Net.ok);
+  const coop = !!(Party.code && Net.ok) && !B.tower;
   const G = genDungeon(B, df, seed);
   DG = { B, df, D:BCD[df], mid:G.M.id, rooms:G.rooms, lives:3, t0:Date.now(), ret, act:null, L:B.L + df * 2, won:0, tk:0, seed, coop };
   if(coop && !join){ Party.dg = { bc:BC.indexOf(B), df, seed, t:Date.now(), by:Net.uid, n:P.name, lives:3 }; Net.D.set(Net.partyRef('dg'), Party.dg).catch(e => console.warn(e)); Net.chat(Lx("mở Bí Cảnh {0} ({1}) cho tổ đội, vào cùng nào!", B.n, BCD[df].n), true); }
@@ -3953,7 +4012,7 @@ function openChest(c){
 function dgWin(R){
   if(DG.won) return; DG.won = 1; const B = DG.B, df = DG.df, rw = DG.D.rw, secs = Math.round((Date.now() - DG.t0) / 1000);
   if(DG.coop && Party.code) Net.D.update(Net.partyRef('dg'), { won:1 }).catch(() => {});
-  P.bc = P.bc || {}; const first = bcBest(B.id) <= df; P.bc[B.id] = Math.max(bcBest(B.id), df + 1);
+  P.bc = P.bc || {}; const first = B.tower ? B.tower > (P.tower || 0) : bcBest(B.id) <= df; if(B.tower) P.tower = Math.max(P.tower || 0, B.tower); else P.bc[B.id] = Math.max(bcBest(B.id), df + 1);
   const cx = (R.x + R.w / 2) * TS, cy = R.cy * TS + 8;
   M.chests.push({ x:cx, y:cy + 12, open:0, big:1, gold:1 });
   M.portals.push({ x:cx, y:cy - 34, to:'__dgexit', tx:0, ty:0, label:Lx("Rời Bí Cảnh") });
@@ -3962,14 +4021,15 @@ function dgWin(R){
   P.st += xu; P.inv.tt = (P.inv.tt || 0) + tt; P.inv.pc = (P.inv.pc || 0) + pcN;
   const lockT = Object.keys(TYP).filter(t => !TYP[t].def && !TYP[t].it && !TYP[t].none && ['mount', 'wing', 'pet'].includes(TYP[t].k) && !tyOwn(t));
   let ty = ''; if(lockT.length && Math.random() < (first ? .35 : .12) * rw){ ty = pick(lockT); gainTyp(ty, true); }
-  saveSoon(); Net.chat(Lx("đã chinh phục Bí Cảnh {0} ({1})!", B.n, DG.D.n), true);
+  saveSoon(); if(!B.tower) Net.chat(Lx("đã chinh phục Bí Cảnh {0} ({1})!", B.n, DG.D.n), true); else if(B.tower % 5 === 0 && first) Net.chat(Lx("đã leo tới tầng {0} Tháp Thông Thiên!", B.tower), true);
   setTimeout(() => { if(!DG) return; sfx.lv(); const mm = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
     sheet(`<div class="bcwin"><small>${Lx("BÍ CẢNH HOÀN THÀNH")}</small><h2>${B.ic} ${B.n}</h2><p class="sub" style="color:${DG.D.c}">${DG.D.n} · ⏱ ${mm} · ❤ ${DG.lives}/3${first ? ' · ' + Lx("Lần đầu!") : ''}</p>
       <div class="bcrw"><div>${iconHtml('st', 22)}<span>${Lx("{0} xu", fmt(xu))}</span></div><div>${iconHtml('tt', 22)}<span>${tt} Linh Tinh</span></div><div>${iconHtml('pc', 22)}<span>${pcN} ${PILLS.pc.n}</span></div>
       ${items.map(it => `<div>${iconHtml(ik(it), 22)}<span style="color:${rarC(ITEMS[it.k].t)}">${esc(itName(it))}</span></div>`).join('')}${ty ? `<div>${iconHtml('ty:' + ty, 22)}<span style="color:#F2C14E">${Lx("Mở khoá {0}!", tyName(ty))}</span></div>` : ''}</div>
-      <p class="sub" style="font-size:11.5px">${df < 2 && P.bc[B.id] > df ? Lx("Đã mở độ khó {0}.", BCD[df + 1].n) : ''} ${Lx("Rương vàng giữa phòng còn chờ bạn mở.")}</p>
-      <div class="row2"><button class="btn alt" data-close>${Lx("Ở lại nhặt đồ")}</button><button class="btn gold" id="bcOut">${Lx("Về Thôn")}</button></div></div>`);
-    $('#bcOut').onclick = () => { closeSheet(); exitDungeon(); }; }, 2200);
+      <p class="sub" style="font-size:11.5px">${!B.tower && df < BCD.length - 1 && P.bc[B.id] > df ? Lx("Đã mở độ khó {0}.", BCD[df + 1].n) : ''} ${Lx("Rương vàng giữa phòng còn chờ bạn mở.")}</p>
+      <div class="row2"><button class="btn alt" data-close>${Lx("Ở lại nhặt đồ")}</button>${B.tower ? `<button class="btn gold" id="twNext">🗼 ${Lx("Lên tầng {0}", B.tower + 1)}</button>` : `<button class="btn gold" id="bcOut">${Lx("Về Thôn")}</button>`}</div></div>`);
+    const o = $('#bcOut'); if(o) o.onclick = () => { closeSheet(); exitDungeon(); };
+    const tn = $('#twNext'); if(tn) tn.onclick = () => { closeSheet(); towerGo(B.tower + 1); }; }, 2200);
 }
 function dgDie(){
   me.dead = true; me.hp = 0; DG.lives--; sfx.bad(); P.deaths++;
@@ -4317,7 +4377,7 @@ $('#track').addEventListener('click', e => {
   const a = e.target.closest('[data-tra]'); if(a){ e.stopPropagation(); sfx.tap(); const k = a.dataset.tra; trOpen = ''; partyHud(); if(k === 'map') bigMap(); else if(k === 'all') questSheet(); else if(k === 'party') partySheet(); else if(k === 'claim') questSheet(false, true); return; }
   const t = e.target.closest('[data-tr]'); if(t){ e.stopPropagation(); sfx.tap(); const k = t.dataset.tr; trOpen = trOpen === k || k === 'd' ? '' : k; if(k === 'd') questSheet(); partyHud(); }
 });
-$('#bAtk').onclick = attackPress; $('#bDodge').addEventListener('pointerdown', e => { e.preventDefault(); dodge(); }); $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
+{ const ba = $('#bAtk'), up = () => { me && (me.atkHold = false); }; ba.addEventListener('pointerdown', e => { e.preventDefault(); if(me) me.atkHold = true; attackPress(); }); ['pointerup', 'pointercancel', 'pointerleave'].forEach(k => ba.addEventListener(k, up)); ba.addEventListener('click', e => { if(e.detail === 0) attackPress(); }); } $('#bDodge').addEventListener('pointerdown', e => { e.preventDefault(); dodge(); }); $('#bPot').onclick = drinkHp; $('#bAuto').onclick = toggleAuto; $('#bMed').onclick = toggleMed;
 document.querySelectorAll('#acts [data-sk]').forEach(b => { b.onclick = () => useSkill(b.dataset.sk); holdTip(b, () => skillTip(b.dataset.sk)); });
 holdTip($('#bAtk'), () => { const nn = nearNpc(); return nn ? `<h4>${nn.n}</h4><p>${Lx("Bấm để nói chuyện.")}</p>` : skillTip('atk'); });
 holdTip($('#bPot'), () => `<h4>${PILLS.hp.n}</h4><div class="sub2">${Lx("Còn {0} viên · phím H", P.inv.hp || 0)}</div><p>${PILLS.hp.d}</p>`);
@@ -4598,6 +4658,7 @@ function sheetFs(html, opt = {}){
       } } }
     // cột phải: nội dung mới mờ dần vào
     { const [a, b] = part('.fsr'); if(a && b){ if(selCh || stepCh){ a.replaceWith(b); replay(b, 'in'); } else if(!morph(a, b)) a.replaceWith(b); } }
+    { const [a, b] = part('.ivd'); if(a && b) a.replaceWith(b); }
     { const [a, b] = part('.ivw'); if(a && b){ const sc = a.querySelector('.igrid') ? a.querySelector('.igrid').scrollTop : 0; a.replaceWith(b); const g2 = b.querySelector('.igrid'); if(g2) g2.scrollTop = sc; } }
     if(stepCh){ const sw = document.createElement('div'); sw.className = 'fsweep'; f.appendChild(sw); setTimeout(() => sw.remove(), 800); }
     return f.parentElement;
@@ -4748,7 +4809,7 @@ async function boot(){
   const want = store.get('td_wantlogin'); store.del('td_wantlogin');
   if(user && !want) startGame(user); else loginSheet(Net.A ? '' : Lx("Không kết nối được máy chủ, bạn vẫn chơi offline được."));
 }
-window.__td = { die, gdMount, gdPet, catIcon, CAT, questSheet, questEvent, trackHtml, setTrOpen:v => { trOpen = v; }, QUESTS, PILLS, realmName, curQuest, questReady, canStand:(x, y) => canStand(M, x, y), closeSheet, dodge, inWarn, get warns(){ return warns; }, hitMob, mapLock, sealedM, bcLock, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
+window.__td = { die, useSkill, rankSheet, chatSheet, langSheet, helpSheet, soundSheet, menuSheet, cafeSheet, bulkSheet, toggleRide, toggleMed, toggleAuto, otherSheet, attackPress, towerGo, towerB, gdMount, gdPet, catIcon, CAT, questSheet, questEvent, trackHtml, setTrOpen:v => { trOpen = v; }, QUESTS, PILLS, realmName, curQuest, questReady, canStand:(x, y) => canStand(M, x, y), closeSheet, dodge, inWarn, get warns(){ return warns; }, hitMob, mapLock, sealedM, bcLock, get running(){ return running; }, appearSheet, heroView, heroSprite, wingImg, dgDie, joinDungeon, MOBS, BC, killMob, startDungeon, bcSheet, get DG(){ return DG; }, partyGo, Voice, treeSheet, skv, bigMap, wpSheet, WPS, nearWp, cosShop, topupSheet, Wallet, CAT, TYP, gainTyp, tyOwn, wr,  get cam(){ return cam; }, get fx(){ return fx; }, setWind:v => { windT = v; }, get Net(){ return Net; }, get Party(){ return Party; }, partySheet:() => partySheet(), gachaSheet:() => gachaSheet(), classSheet:() => classSheet(), get curPN(){ return curPN; }, killMob:m => killMob(m), rollItem:(k, src) => rollItem(k, src), stats:() => stats(), bagSheet:f => bagSheet(f), charSheet:() => charSheet(), shopSheet:(k, t) => shopSheet(k, t), pickDrop:d => pickDrop(d), get scale(){ return scale; }, warn:o => warn(o), addOther:(id, o) => { others[id] = Object.assign({ id, nx:o.x, ny:o.y, seen:Date.now() + 1e7, dir:1 }, o); }, say:(k, p, c) => say(k, p, c), npcTalk:k => npcTalk(M.npcs.find(n => n.k === k)), get DLG(){ return DLG; }, bubble:(id, m) => { bubbles[id] = { m, t:Date.now() }; }, breakthrough:() => breakthrough(), mobSprite, MOBS, heroSprite, wingSprite, swordSprite, itemIcon, ITEMS, get P(){ return P; }, get me(){ return me; }, get mobs(){ return mobs; }, gainExp:n => gainExp(n), MAPS, enterMap:(a, b, c) => enterMap(a, b, c) };
 boot();
 })();
 </script>
